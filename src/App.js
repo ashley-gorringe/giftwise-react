@@ -5,6 +5,18 @@ import LogoFull from './logo-full.svg';
 import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
 
+
+document.addEventListener('wheel', function(event) {
+	var mainBody = document.getElementById('main');
+	var toScroll = mainBody.scrollTop + event.deltaY;
+
+	// Scroll the main body element
+	mainBody.scrollTop = toScroll;
+
+	// Prevent the default scroll behavior to avoid scrolling the entire page
+	event.preventDefault();
+}, { passive: false });
+
 function SidebarNav() {
 	const location = useLocation();
 
@@ -46,9 +58,29 @@ function App() {
 					<span className="footer-copyright">© 2024 Dandylion Technologies.</span>
 				</div>
 			</div>
-			<main>
+			<main id='main'>
 				<Routes>
-					<Route path="/" element={<h1>My Wishlist</h1>} />
+					<Route path="/" element={
+					<>
+					<h1>My Wishlist</h1>
+					<div className='list-section'>
+						<div className='section-header'>
+							<span></span>
+							<h3>Visible to only me</h3>
+							<span></span>
+						</div>
+						<div className='grid'>
+							<a href="#" className='list-item'>
+								<div className='image' style={{ backgroundImage: 'url()' }}></div>
+								<div className='body'>
+									<h4>Some Android Smart Watch</h4>
+									<span className='price'>£199.99</span>
+								</div>
+							</a>
+						</div>
+					</div>
+					</>
+					} />
 					<Route path="/people" element={<h1>People</h1>} />
 					<Route path="/activity" element={<h1>Activity</h1>} />
 					<Route path="/account" element={<h1>Account</h1>} />
