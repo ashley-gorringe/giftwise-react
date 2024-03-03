@@ -65,6 +65,10 @@ body{
             display: flex;
         }
     }
+
+    &.--pwa{
+        padding-bottom: 30px;
+    }
 }
 
 .top-bar{

@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+
 import { Routes, Route, Link } from 'react-router-dom';
 
 import LogoFull from './logo-full.svg';
@@ -55,11 +57,21 @@ function ListItem() {
 }
 
 function App() {
+	const [isIOS, setIsIOS] = useState(false);
+    const [isPwaOnIOS, setIsPwaOnIOS] = useState(false);
 
 	const profilePicture = 'https://r2.serverbook.app/user-image/9e1a4260ea970fb37721bd9c968e2db8-medium.jpg';
 
+	useEffect(() => {
+        const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        setIsIOS(isIOSDevice);
+
+        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
+        setIsPwaOnIOS(isIOSDevice && isInStandaloneMode);
+    }, []);
+
 	return (
-		<div className="app">
+		<div className={`app ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 			<div className="top-bar">
 				<a className='logo' href="/">
 					<img src={LogoIcon} alt="Logo" />
