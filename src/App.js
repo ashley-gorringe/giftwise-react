@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom';
 
 import LogoFull from './logo-full.svg';
+import LogoIcon from './logo-icon.svg';
 
 import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
@@ -29,12 +30,43 @@ function SidebarNav() {
 	);
 }
 
+function MobileNav() {
+	const location = useLocation();
+
+	return (
+		<div className='mobile-nav'>
+			<Link to="/" className={location.pathname === '/' ? '--active' : ''}><HomeIcon/><span>My Wishlist</span></Link>
+			<Link to="/people" className={location.pathname === '/people' ? '--active' : ''}><UserGroupIcon/><span>People</span></Link>
+			<Link to="/activity" className={location.pathname === '/activity' ? '--active' : ''}><BellAlertIcon/><span>Activity</span></Link>
+		</div>
+	);
+}
+
+function ListItem() {
+	return(
+		<a href="#" className='list-item'>
+			<div className='image' style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2599&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)' }}></div>
+			<div className='body'>
+				<h4>Some Android Smart Watch wrga gwergwerg arghaerh aewrhaerhaerh aehaerh aehhaerhae</h4>
+				<span className='price'>£199.99</span>
+			</div>
+		</a>
+	);
+}
+
 function App() {
 
 	const profilePicture = 'https://r2.serverbook.app/user-image/9e1a4260ea970fb37721bd9c968e2db8-medium.jpg';
 
 	return (
 		<div className="app">
+			<div className="top-bar">
+				<a className='logo' href="/">
+					<img src={LogoIcon} alt="Logo" />
+				</a>
+				<a className='user' href="/account" style={{ backgroundImage:`url(${profilePicture})` }}></a>
+
+			</div>
 			<div className="sidebar">
 				<div className="logo">
 					<a href="/">
@@ -70,13 +102,14 @@ function App() {
 							<span></span>
 						</div>
 						<div className='grid'>
-							<a href="#" className='list-item'>
-								<div className='image' style={{ backgroundImage: 'url()' }}></div>
-								<div className='body'>
-									<h4>Some Android Smart Watch</h4>
-									<span className='price'>£199.99</span>
-								</div>
-							</a>
+							<ListItem/>
+							<ListItem/>
+							<ListItem/>
+							<ListItem/>
+							<ListItem/>
+							<ListItem/>
+							<ListItem/>
+							<ListItem/>
 						</div>
 					</div>
 					</>
@@ -87,6 +120,7 @@ function App() {
 					<Route path="*" element={<h1>Not Found</h1>} />
 				</Routes>
 			</main>
+			<MobileNav/>
 		</div>
 	);
 }
