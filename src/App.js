@@ -73,9 +73,9 @@ function App() {
 	return (
 		<div className={`app ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 			<div className="top-bar">
-				<a className='logo' href="/">
+				<Link className='logo' to="/">
 					<img src={LogoIcon} alt="Logo" />
-				</a>
+				</Link>
 				<a className='user' href="/account" style={{ backgroundImage:`url(${profilePicture})` }}></a>
 
 			</div>

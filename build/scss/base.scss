@@ -489,4 +489,17 @@ body{
             }
         }
     }
+    @container (max-width: 500px) {
+        .image{
+            width:80px;
+            height: 80px;
+        }
+        .body{
+            h4{
+                -webkit-line-clamp: 2;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+    }
 }
