@@ -44,26 +44,42 @@ function MobileNav() {
 	);
 }
 
-function ListItem() {
-	// State to manage whether the menu is open or not
-    const [menuOpen, setMenuOpen] = useState(false);
+function ListItem(props) {
+	const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef(); // Ref for the menu
 
-    // Function to toggle the menu state
+    // Toggle menu function
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    useEffect(() => {
+        // Function to check if clicked outside
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setMenuOpen(false);
+            }
+        };
+
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [menuRef]);
 	
 	return(
 		<div className={`list-item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
 			<button className='list-item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
 			<a href="#" className='list-item'>
-				<div className='image' style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2599&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)' }}></div>
+				<div className='image' style={{ backgroundImage: 'url('+props.thumbnailSrc+')' }}></div>
 				<div className='body'>
-					<h4>Some Android Smart Watch wrga gwergwerg arghaerh aewrhaerhaerh aehaerh aehhaerhae</h4>
-					<span className='price'>£199.99</span>
+					<h4>{props.name}</h4>
+					<span className='price'>{props.price}</span>
 				</div>
 			</a>
-			<div className='list-item-menu'>
+			<div ref={menuRef} className='list-item-menu'>
 				<a href="#"><PencilSquareIcon/><span>Edit</span></a>
 				<a href="#"><EyeSlashIcon/><span>Private</span></a>
 				<a href="#"><UserGroupIcon/><span>Friends & Family</span></a>
@@ -133,14 +149,12 @@ function App() {
 							<span></span>
 						</div>
 						<div className='grid'>
-							<ListItem/>
-							<ListItem/>
-							<ListItem/>
-							<ListItem/>
-							<ListItem/>
-							<ListItem/>
-							<ListItem/>
-							<ListItem/>
+							<ListItem name="Some Android Smart Watch" price="£199.99" thumbnailSrc="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHNtYXJ0JTIwd2F0Y2h8ZW58MHwwfDB8fHww"/>
+							<ListItem name="Noise Cancelling Headphones" price="£79.99" thumbnailSrc="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhZHBob25lc3xlbnwwfDB8MHx8fDA%3D"/>
+							<ListItem name="Polestar 2 - Dual Motor Long Range" price="£56,422.00" thumbnailSrc="https://images.unsplash.com/photo-1626275035543-b15a5a67d74d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9sZXN0YXJ8ZW58MHwwfDB8fHww"/>
+							<ListItem name="Uncomfortable designer chair" price="£235.00" thumbnailSrc="https://images.unsplash.com/photo-1554104707-a76b270e4bbb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2hhaXJ8ZW58MHwwfDB8fHww"/>
+							<ListItem name="Brightly Coloured Socks" price="£12.50" thumbnailSrc="https://images.unsplash.com/photo-1535488407783-1c7c7152e48a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fHNvY2tzfGVufDB8MHwwfHx8MA%3D%3D"/>
+							<ListItem name="Xbox Controller" price="£67.99" thumbnailSrc="https://images.unsplash.com/photo-1605640194512-2f7440046c2a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8eGJveCUyMGNvbnRyb2xsZXJ8ZW58MHwwfDB8fHww"/>
 						</div>
 					</div>
 					</>
