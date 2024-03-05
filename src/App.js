@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { Routes, Route, Link } from 'react-router-dom';
 
 import LogoFull from './logo-full.svg';
 import LogoIcon from './logo-icon.svg';
 
-import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon, EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
 
 
@@ -45,14 +45,33 @@ function MobileNav() {
 }
 
 function ListItem() {
+	// State to manage whether the menu is open or not
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    // Function to toggle the menu state
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+	
 	return(
-		<a href="#" className='list-item'>
-			<div className='image' style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2599&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)' }}></div>
-			<div className='body'>
-				<h4>Some Android Smart Watch wrga gwergwerg arghaerh aewrhaerhaerh aehaerh aehhaerhae</h4>
-				<span className='price'>£199.99</span>
+		<div className={`list-item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
+			<button className='list-item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
+			<a href="#" className='list-item'>
+				<div className='image' style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2599&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)' }}></div>
+				<div className='body'>
+					<h4>Some Android Smart Watch wrga gwergwerg arghaerh aewrhaerhaerh aehaerh aehhaerhae</h4>
+					<span className='price'>£199.99</span>
+				</div>
+			</a>
+			<div className='list-item-menu'>
+				<a href="#"><PencilSquareIcon/><span>Edit</span></a>
+				<a href="#"><EyeSlashIcon/><span>Private</span></a>
+				<a href="#"><UserGroupIcon/><span>Friends & Family</span></a>
+				<a href="#"><EyeIcon/><span>Public</span></a>
+				<div className='divider'></div>
+				<a className='--danger' href="#"><TrashIcon/><span>Delete</span></a>
 			</div>
-		</a>
+		</div>
 	);
 }
 
