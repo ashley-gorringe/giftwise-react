@@ -65,7 +65,7 @@ function App() {
 				<Link className='logo' to="/">
 					<img src={LogoIcon} alt="Logo" />
 				</Link>
-				<a className='user' href="/account" style={{ backgroundImage:`url(${profilePicture})` }}></a>
+				<Link className='user' to="/account" style={{ backgroundImage:`url(${profilePicture})` }}></Link>
 
 			</div>
 			<div className="sidebar">
@@ -91,6 +91,7 @@ function App() {
 					<span className="footer-copyright">© 2024 Dandylion Technologies.</span>
 				</div>
 			</div>
+			<div className='main-inset-shadow'></div>
 			<main id='main'>
 				<Routes>
 					<Route path="/" element={
