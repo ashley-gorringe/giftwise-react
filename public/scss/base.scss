@@ -374,6 +374,15 @@ body{
             background-color: darken($color-primary, 10%);
         }
     }
+    &.--quiet{
+        background-color: white;
+        color: $color-dark;
+        box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0);
+        &:hover{
+            background-color: darken(white, 10%);
+        }
+    
+    }
 }
 
 .wishlist-index-header{

@@ -41,6 +41,9 @@ function App() {
 	const [isIOS, setIsIOS] = useState(false);
     const [isPwaOnIOS, setIsPwaOnIOS] = useState(false);
 
+	const [user, setUser] = useState(null);
+
+	const apiRoot = 'http://localhost:8010/proxy';
 	const profilePicture = 'https://r2.serverbook.app/user-image/9e1a4260ea970fb37721bd9c968e2db8-medium.jpg';
 
 	useEffect(() => {
@@ -51,12 +54,36 @@ function App() {
         setIsPwaOnIOS(isIOSDevice && isInStandaloneMode);
     }, []);
 
-	//after 2 seconds, set the loading state to false
+	//check if local storage has a token
 	useEffect(() => {
-		setTimeout(() => {
+		const token = localStorage.getItem('token');
+		if(token){
+			//check if the token is valid
+			fetch(`${apiRoot}/user-tokens/`+token, {
+				method: 'GET',
+			}).then(response => response.json()).then(data => {
+				if(data.error){
+					setIsLoading(false);
+				}else{
+					//set the user in the app state
+					setUser(data.user);
+					console.log(data.user);
+					//set the user as signed in
+					setIsSignedIn(true);
+					setIsLoading(false);
+				}
+			}
+			).catch((error) => {
+				setIsLoading(false);
+			}
+			);
+
+
+		}else{
 			setIsLoading(false);
-		}, 1000);
+		}
 	}, []);
+
 
 	
 	if(isLoading){
@@ -74,7 +101,7 @@ function App() {
 				<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 					<div className='structure-sign-in'>
 						<img className='logo' src={LogoTall} alt="Logo" />
-						<SignInBox/>
+						<SignInBox apiRoot={apiRoot} setIsSignedIn={setIsSignedIn} setUser={setUser}/>
 						<div className='footer'>
 							<div className="footer-links">
 								<a href="#">Terms</a>
@@ -118,7 +145,7 @@ function App() {
 								<div className="picture" style={{ backgroundImage:`url(${profilePicture})` }}></div>
 								<div className="body">
 									<span>My Account</span>
-									<span>Ashley Gorringe</span>
+									<span>{user.name_full}</span>
 								</div>
 							</Link>
 							<div className="footer-links">
