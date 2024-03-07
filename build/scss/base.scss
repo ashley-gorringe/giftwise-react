@@ -104,6 +104,12 @@ body{
     &.--pwa{
         padding-bottom: 22px;
     }
+
+    &.app-sign-in{
+        display: grid;
+        grid-template-columns: 1fr!important;
+        grid-template-rows: auto!important;
+    }
 }
 
 @import 'navigation';
@@ -111,7 +117,199 @@ body{
 @import 'components/grid';
 @import 'components/wishlist';
 
+.structure-sign-in{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 50px;
+    .logo{
+        display: block;
+        position: relative;
+        width: auto;
+        height: 100px;
+    }
+    .footer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .footer-links{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            a{
+                display: block;
+                color: $color-text-muted;
+                text-decoration: none;
+                font-size: 14px;
+                line-height: 1em;
+                font-weight: 400;
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .footer-copyright{
+            display: block;
+            font-size: 12px;
+            line-height: 1em;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+            color: $color-text-muted-2;
+            margin-top: 20px;
+        }
+    }
 
+    .box{
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 50px 30px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
+        background-image: url(/log-in-bg.png);
+        background-size: 100%;
+        background-position: top;
+        background-repeat: no-repeat;
+        flex-direction: column;
+        gap: 50px;
+        .body{
+            display: block;
+            position: relative;
+            width: 100%;
+            height: auto;
+            h3{
+                display: block;
+                font-size: 24px;
+                line-height: 1.1em;
+                font-weight: 700;
+                font-family: 'Sentient', serif;
+                color: $color-dark;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            
+            }
+            p{
+                display: block;
+                font-size: 18px;
+                line-height: 1.2em;
+                font-weight: 400;
+                color: $color-dark;
+                margin: 0;
+                padding: 0;
+                margin-top: 10px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    .form-group{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        label{
+            display: block;
+            font-size: 14px;
+            line-height: 1em;
+            font-weight: 600;
+            color: $color-dark;
+            margin: 0;
+            padding: 0 10px;
+        }
+        .input-text{
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background-color: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 0 20px;
+            font-size: 16px;
+        }
+    }
+}
+
+.button{
+    display: inline-flex;
+    position: relative;
+    width: auto;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
+    span{
+        display: block;
+        font-size: 16px;
+        line-height: 1em;
+        font-weight: 600;
+        text-align: center;
+    
+    }
+    &.--fw{
+        width: 100%;
+    }
+
+    .loader {
+        display: block;
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 2px solid $color-dark;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        visibility: hidden;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        }
+    
+        @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    &.--loading{
+        span{
+            visibility: hidden;
+        }
+        .loader{
+            visibility: visible;
+        }
+    }
+
+    &.--primary{
+        background-color: $color-primary;
+        color: white;
+        .loader{
+            border-color: white;
+            border-bottom-color: transparent;
+        }
+        &:hover{
+            background-color: darken($color-primary, 10%);
+        }
+    }
+}
 
 .wishlist-index-header{
     display: grid;
