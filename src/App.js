@@ -37,6 +37,7 @@ function MobileNav() {
 
 function App() {
 	const [isLoading, setIsLoading] = useState(true);
+	const [isSignedIn, setIsSignedIn] = useState(false);
 	const [isIOS, setIsIOS] = useState(false);
     const [isPwaOnIOS, setIsPwaOnIOS] = useState(false);
 
@@ -50,6 +51,13 @@ function App() {
         setIsPwaOnIOS(isIOSDevice && isInStandaloneMode);
     }, []);
 
+	//after 2 seconds, set the loading state to false
+	useEffect(() => {
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 1000);
+	}, []);
+
 	
 	if(isLoading){
 		return(
@@ -61,7 +69,7 @@ function App() {
 			</div>
 		);
 	}else{
-		if (!localStorage.getItem('userid')) {
+		if (!isSignedIn) {
 			return(
 				<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 					<div className='structure-sign-in'>

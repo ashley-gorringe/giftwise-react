@@ -19,7 +19,7 @@ function FormWelcome(props) {
             setTimeout(() => {
                 props.setBoxState('sign-in');
                 setIsLoading(false);
-            }, 2000);
+            }, 1000);
         }
 
         //setIsLoading(true); // Set loading state to true
