@@ -36,6 +36,7 @@ function MobileNav() {
 }
 
 function App() {
+	const [isLoading, setIsLoading] = useState(true);
 	const [isIOS, setIsIOS] = useState(false);
     const [isPwaOnIOS, setIsPwaOnIOS] = useState(false);
 
@@ -49,83 +50,93 @@ function App() {
         setIsPwaOnIOS(isIOSDevice && isInStandaloneMode);
     }, []);
 
-	//if local storage userid is not set
-	//redirect to login
-	if (!localStorage.getItem('userid')) {
+	
+	if(isLoading){
 		return(
 			<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
-				<div className='structure-sign-in'>
+				<div className='structure-loading'>
 					<img className='logo' src={LogoTall} alt="Logo" />
-					<SignInBox/>
-					<div className='footer'>
-						<div className="footer-links">
-							<a href="#">Terms</a>
-							<a href="#">Privacy</a>
-							<a href="#">Support</a>
-						</div>
-						<span className="footer-copyright">© 2024 Dandylion Technologies.</span>
-					</div>
+					<span class="loader"></span>
 				</div>
 			</div>
 		);
 	}else{
-		document.addEventListener('wheel', function(event) {
-			var mainBody = document.getElementById('main');
-			var toScroll = mainBody.scrollTop + event.deltaY;
-		
-			// Scroll the main body element
-			mainBody.scrollTop = toScroll;
-		
-			// Prevent the default scroll behavior to avoid scrolling the entire page
-			event.preventDefault();
-		}, { passive: false });
-		return (
-			<div className={`app ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
-				<div className="top-bar">
-					<Link className='logo' to="/">
-						<img src={LogoIcon} alt="Logo" />
-					</Link>
-					<Link className='user' to="/account" style={{ backgroundImage:`url(${profilePicture})` }}></Link>
-	
-				</div>
-				<div className="sidebar">
-					<div className="logo">
-						<a href="/">
-							<img src={LogoFull} alt="Logo" />
-						</a>
-					</div>
-					<SidebarNav/>
-					<div className="footer">
-						<Link className="footer-account" to="/account">
-							<div className="picture" style={{ backgroundImage:`url(${profilePicture})` }}></div>
-							<div className="body">
-								<span>My Account</span>
-								<span>Ashley Gorringe</span>
+		if (!localStorage.getItem('userid')) {
+			return(
+				<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
+					<div className='structure-sign-in'>
+						<img className='logo' src={LogoTall} alt="Logo" />
+						<SignInBox/>
+						<div className='footer'>
+							<div className="footer-links">
+								<a href="#">Terms</a>
+								<a href="#">Privacy</a>
+								<a href="#">Support</a>
 							</div>
-						</Link>
-						<div className="footer-links">
-							<a href="#">Terms</a>
-							<a href="#">Privacy</a>
-							<a href="#">Support</a>
+							<span className="footer-copyright">© 2024 Dandylion Technologies.</span>
 						</div>
-						<span className="footer-copyright">© 2024 Dandylion Technologies.</span>
 					</div>
 				</div>
-				<div className='main-inset-shadow'></div>
-				<main id='main'>
-					<Routes>
-						<Route path="/" element={
-							<WishlistIndex/>
-						} />
-						<Route path="/people" element={<h1>People</h1>} />
-						<Route path="/activity" element={<h1>Activity</h1>} />
-						<Route path="/account" element={<h1>Account</h1>} />
-						<Route path="*" element={<h1>Not Found</h1>} />
-					</Routes>
-				</main>
-				<MobileNav/>
-			</div>
-		);
+			);
+		}else{
+			document.addEventListener('wheel', function(event) {
+				var mainBody = document.getElementById('main');
+				var toScroll = mainBody.scrollTop + event.deltaY;
+			
+				// Scroll the main body element
+				mainBody.scrollTop = toScroll;
+			
+				// Prevent the default scroll behavior to avoid scrolling the entire page
+				event.preventDefault();
+			}, { passive: false });
+			return (
+				<div className={`app ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
+					<div className="top-bar">
+						<Link className='logo' to="/">
+							<img src={LogoIcon} alt="Logo" />
+						</Link>
+						<Link className='user' to="/account" style={{ backgroundImage:`url(${profilePicture})` }}></Link>
+		
+					</div>
+					<div className="sidebar">
+						<div className="logo">
+							<a href="/">
+								<img src={LogoFull} alt="Logo" />
+							</a>
+						</div>
+						<SidebarNav/>
+						<div className="footer">
+							<Link className="footer-account" to="/account">
+								<div className="picture" style={{ backgroundImage:`url(${profilePicture})` }}></div>
+								<div className="body">
+									<span>My Account</span>
+									<span>Ashley Gorringe</span>
+								</div>
+							</Link>
+							<div className="footer-links">
+								<a href="#">Terms</a>
+								<a href="#">Privacy</a>
+								<a href="#">Support</a>
+							</div>
+							<span className="footer-copyright">© 2024 Dandylion Technologies.</span>
+						</div>
+					</div>
+					<div className='main-inset-shadow'></div>
+					<main id='main'>
+						<Routes>
+							<Route path="/" element={
+								<WishlistIndex/>
+							} />
+							<Route path="/people" element={<h1>People</h1>} />
+							<Route path="/activity" element={<h1>Activity</h1>} />
+							<Route path="/account" element={<h1>Account</h1>} />
+							<Route path="*" element={<h1>Not Found</h1>} />
+						</Routes>
+					</main>
+					<MobileNav/>
+				</div>
+			);
+		}
 	}
 }
 
