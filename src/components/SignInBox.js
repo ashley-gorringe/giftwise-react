@@ -118,7 +118,7 @@ function FormSignIn(props) {
                 <input className='input-text' type='password' name='password' />
             </div>
             <div className='form-group'>
-                <button className='button --primary --fw' type='submit'><span>Sign In</span><div className="loader"></div></button>
+                <button className={`button --primary --fw ${isLoading ? '--loading' : ''}`} type='submit'><span>Sign In</span><div className="loader"></div></button>
                 <button className='button --fw' type='button' ><span>Forgot Password</span><div className="loader"></div></button>
                 <button className='button --quiet --fw' type='button' onClick={handleBack}><span>Go Back</span><div className="loader"></div></button>
             </div>
@@ -193,7 +193,7 @@ function FormSignUp(props) {
                 <input className='input-text' type='password' name='password_re' />
             </div>
             <div className='form-group'>
-                <button className='button --primary --fw' type='submit'><span>Sign Up</span><div className="loader"></div></button>
+                <button className={`button --primary --fw ${isLoading ? '--loading' : ''}`} type='submit'><span>Sign Up</span><div className="loader"></div></button>
                 <button className='button --quiet --fw' type='button' onClick={handleBack}><span>Go Back</span><div className="loader"></div></button>
             </div>
         </form>
