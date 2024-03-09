@@ -6,6 +6,7 @@ import LogoFull from './logo-full.svg';
 import LogoIcon from './logo-icon.svg';
 import LogoTall from './logo-tall.svg';
 
+import toast, { Toaster } from 'react-hot-toast';
 import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
 import WishlistIndex from './views/WishlistIndex';
@@ -74,7 +75,8 @@ function App() {
 				}
 			}
 			).catch((error) => {
-				setIsLoading(false);
+				toast.error('There was an error communicating with the server.');
+				//setIsLoading(false);
 			}
 			);
 
@@ -88,16 +90,21 @@ function App() {
 	
 	if(isLoading){
 		return(
+			<>
+			<Toaster position="bottom-center"/>
 			<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 				<div className='structure-loading'>
 					<img className='logo' src={LogoTall} alt="Logo" />
 					<span class="loader"></span>
 				</div>
 			</div>
+			</>
 		);
 	}else{
 		if (!isSignedIn) {
 			return(
+				<>
+				<Toaster position="bottom-center"/>
 				<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 					<div className='structure-sign-in'>
 						<img className='logo' src={LogoTall} alt="Logo" />
@@ -112,6 +119,7 @@ function App() {
 						</div>
 					</div>
 				</div>
+				</>
 			);
 		}else{
 			document.addEventListener('wheel', function(event) {
@@ -125,6 +133,8 @@ function App() {
 				event.preventDefault();
 			}, { passive: false });
 			return (
+				<>
+				<Toaster position="bottom-center"/>
 				<div className={`app ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 					<div className="top-bar">
 						<Link className='logo' to="/">
@@ -170,6 +180,7 @@ function App() {
 					</main>
 					<MobileNav/>
 				</div>
+				</>
 			);
 		}
 	}

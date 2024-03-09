@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
 function FormWelcome(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,7 @@ function FormWelcome(props) {
                 }
             })
             .catch((error) => {
-                alert('There was an error communicating with the server');
+                toast.error('There was an error communicating with the server.');
                 setIsLoading(false);
             }
             );
@@ -101,7 +102,7 @@ function FormSignIn(props) {
             }
         })
         .catch((error) => {
-            alert('There was an error communicating with the server');
+            toast.error('There was an error communicating with the server.');
             setIsLoading(false);
         }
         );
@@ -164,7 +165,8 @@ function FormSignUp(props) {
             }
         })
         .catch((error) => {
-            alert('There was an error communicating with the server');
+            //alert('There was an error communicating with the server');
+            toast.error('There was an error communicating with the server.');
             setIsLoading(false);
         }
         );
