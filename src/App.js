@@ -95,7 +95,7 @@ function App() {
 			<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 				<div className='structure-loading'>
 					<img className='logo' src={LogoTall} alt="Logo" />
-					<span class="loader"></span>
+					<span className="loader"></span>
 				</div>
 			</div>
 			</>
@@ -104,7 +104,7 @@ function App() {
 		if (!isSignedIn) {
 			return(
 				<>
-				<Toaster position="bottom-center"/>
+				<Toaster position="top-center"/>
 				<div className={`app app-sign-in ${isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
 					<div className='structure-sign-in'>
 						<img className='logo' src={LogoTall} alt="Logo" />

@@ -6,11 +6,16 @@ function FormWelcome(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault(); // Prevent the default form submission
+        document.querySelectorAll('.form-group').forEach((formGroup) => {
+            formGroup.classList.remove('--error');
+        });
 
         //make sure the email is valid
         const email = document.getElementById('email').value;
         if(email === ''){
-            alert('Please enter a valid email address');
+            //find the nearest .field-group and add the class .error
+            document.getElementById('email').closest('.form-group').classList.add('--error');
+            document.getElementById('email').closest('.form-group').querySelector('.error-text').innerText = 'Please enter your email address';
             return;
         }else{
             setIsLoading(true);
@@ -19,7 +24,6 @@ function FormWelcome(props) {
                 method: 'GET',
             })
             .then(response => response.json()).then(data => {
-                console.log(data);
                 if(data < 1){
                     setTimeout(() => {
                         props.setEmail(email);
@@ -56,6 +60,7 @@ function FormWelcome(props) {
             <div className='form-group'>
                 <label>Email Address</label>
                 <input className='input-text' id='email' type='email' placeholder='example@email.com' />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <button className={`button --primary --fw ${isLoading ? '--loading' : ''}`} type='submit'><span>Continue</span><div className="loader"></div></button>
@@ -77,19 +82,26 @@ function FormSignIn(props) {
         e.preventDefault();
         setIsLoading(true);
         //send the email to the server
+        document.querySelectorAll('.form-group').forEach((formGroup) => {
+            formGroup.classList.remove('--error');
+        });
 
         //get the form data from the form with ID sign-up-form
-        const formData = new FormData(document.getElementById('sign-up-form'));
+        const formData = new FormData(document.getElementById('sign-in-form'));
         console.log(formData.get('email'));
         fetch(`${props.apiRoot}/user-sign-in/`, {
             method: 'POST',
             body: formData,
-        })
-        .then(response => response.json()).then(data => {
+        }).then(response => response.json()).then(data => {
             console.log(data);
             if(data.error){
-                alert(data.error);
+                toast.error(data.error);
                 setIsLoading(false);
+
+                for(let error_field in data.error_fields){
+                    document.querySelector(`input[name="${error_field}"]`).closest('.form-group').classList.add('--error');
+                    document.querySelector(`input[name="${error_field}"]`).closest('.form-group').querySelector('.error-text').innerText = data.error_fields[error_field];
+                }
             }else{
                 //set local storage
                 localStorage.setItem('token', data.token);
@@ -100,23 +112,24 @@ function FormSignIn(props) {
                 //set the user as signed in
                 props.setIsSignedIn(true);
             }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             toast.error('There was an error communicating with the server.');
+            console.error(error);
             setIsLoading(false);
-        }
-        );
+        });
     };
 
     return (
-        <form className='form' id='sign-up-form' onSubmit={handleSubmit}>
+        <form className='form' id='sign-in-form' onSubmit={handleSubmit}>
             <div className='form-group'>
                 <label>Email Address</label>
-                <input className='input-text' type='email' name='email' placeholder='example@email.com' value={props.email} />
+                <input className='input-text' type='email' name='email' placeholder='example@email.com' defaultValue={props.email} />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Password</label>
                 <input className='input-text' type='password' name='password' />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <button className={`button --primary --fw ${isLoading ? '--loading' : ''}`} type='submit'><span>Sign In</span><div className="loader"></div></button>
@@ -140,19 +153,26 @@ function FormSignUp(props) {
         e.preventDefault();
         setIsLoading(true);
         //send the email to the server
+        //remove the --error class from all .form-group elements
+        document.querySelectorAll('.form-group').forEach((formGroup) => {
+            formGroup.classList.remove('--error');
+        });
 
         //get the form data from the form with ID sign-up-form
         const formData = new FormData(document.getElementById('sign-up-form'));
-        console.log(formData.get('email'));
         fetch(`${props.apiRoot}/users/`, {
             method: 'POST',
             body: formData,
-        })
-        .then(response => response.json()).then(data => {
+        }).then(response => response.json()).then(data => {
             console.log(data);
             if(data.error){
-                alert(data.error);
+                toast.error(data.error);
                 setIsLoading(false);
+
+                for(let error_field in data.error_fields){
+                    document.querySelector(`input[name="${error_field}"]`).closest('.form-group').classList.add('--error');
+                    document.querySelector(`input[name="${error_field}"]`).closest('.form-group').querySelector('.error-text').innerText = data.error_fields[error_field];
+                }
             }else{
                 //set local storage
                 localStorage.setItem('token', data.token);
@@ -163,36 +183,39 @@ function FormSignUp(props) {
                 //set the user as signed in
                 props.setIsSignedIn(true);
             }
-        })
-        .catch((error) => {
-            //alert('There was an error communicating with the server');
+        }).catch((error) => {
             toast.error('There was an error communicating with the server.');
+            console.error(error);
             setIsLoading(false);
-        }
-        );
+        });
     };
 
     return (
         <form className='form' id='sign-up-form' onSubmit={handleSubmit}>
             <div className='form-group'>
                 <label>Email Address</label>
-                <input className='input-text' type='email' name='email' placeholder='example@email.com' value={props.email} />
+                <input className='input-text' type='email' name='email' placeholder='example@email.com' defaultValue={props.email} />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Full Name</label>
                 <input className='input-text' type='text' name='name_full' />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Preferred Name</label>
                 <input className='input-text' type='text' name='name_preferred' />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Password</label>
                 <input className='input-text' type='password' name='password' />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Re-enter Password</label>
                 <input className='input-text' type='password' name='password_re' />
+                <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <button className={`button --primary --fw ${isLoading ? '--loading' : ''}`} type='submit'><span>Sign Up</span><div className="loader"></div></button>
