@@ -20,11 +20,11 @@ function FormWelcome(props) {
         }else{
             setIsLoading(true);
             //send the email to the server
-            fetch(`${props.apiRoot}/users-email-count/`+email, {
+            fetch(`${props.apiRoot}/users?email=`+email, {
                 method: 'GET',
             })
             .then(response => response.json()).then(data => {
-                if(data < 1){
+                if(data.user_count < 1){
                     setTimeout(() => {
                         props.setEmail(email);
                         props.setBoxState('sign-up');
@@ -59,7 +59,7 @@ function FormWelcome(props) {
         <form className='form' onSubmit={handleSubmit}>
             <div className='form-group'>
                 <label>Email Address</label>
-                <input className='input-text' id='email' type='email' placeholder='example@email.com' />
+                <input className='input-text' id='email' type='email' placeholder='example@email.com' autoFocus/>
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
@@ -89,7 +89,7 @@ function FormSignIn(props) {
         //get the form data from the form with ID sign-up-form
         const formData = new FormData(document.getElementById('sign-in-form'));
         console.log(formData.get('email'));
-        fetch(`${props.apiRoot}/user-sign-in/`, {
+        fetch(`${props.apiRoot}/login_tokens/`, {
             method: 'POST',
             body: formData,
         }).then(response => response.json()).then(data => {
@@ -128,7 +128,7 @@ function FormSignIn(props) {
             </div>
             <div className='form-group'>
                 <label>Password</label>
-                <input className='input-text' type='password' name='password' />
+                <input className='input-text' type='password' name='password' autoFocus />
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
@@ -199,7 +199,7 @@ function FormSignUp(props) {
             </div>
             <div className='form-group'>
                 <label>Full Name</label>
-                <input className='input-text' type='text' name='name_full' />
+                <input className='input-text' type='text' name='name_full' autoFocus />
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 import LogoFull from './logo-full.svg';
 import LogoIcon from './logo-icon.svg';
@@ -44,6 +44,8 @@ function App() {
 
 	const [user, setUser] = useState(null);
 
+	const navigate = useNavigate();
+
 	const apiRoot = 'http://localhost:8010/proxy';
 	const profilePicture = 'https://r2.serverbook.app/user-image/9e1a4260ea970fb37721bd9c968e2db8-medium.jpg';
 
@@ -60,7 +62,7 @@ function App() {
 		const token = localStorage.getItem('token');
 		if(token){
 			//check if the token is valid
-			fetch(`${apiRoot}/user-tokens/`+token, {
+			fetch(`${apiRoot}/login_tokens/`+token, {
 				method: 'GET',
 			}).then(response => response.json()).then(data => {
 				if(data.error){
@@ -85,6 +87,14 @@ function App() {
 			setIsLoading(false);
 		}
 	}, []);
+
+	const handleSignOut = () => {
+		localStorage.removeItem('token');
+		setIsSignedIn(false);
+		setUser(null);
+		navigate('/');
+		toast.success('You have been signed out.');
+	};
 
 
 	
@@ -174,7 +184,12 @@ function App() {
 							} />
 							<Route path="/people" element={<h1>People</h1>} />
 							<Route path="/activity" element={<h1>Activity</h1>} />
-							<Route path="/account" element={<h1>Account</h1>} />
+							<Route path="/account" element={
+								<>
+								<h1>Account</h1>
+								<button className='button' onClick={handleSignOut}><span>Sign Out</span></button>
+								</>
+							} />
 							<Route path="*" element={<h1>Not Found</h1>} />
 						</Routes>
 					</main>
