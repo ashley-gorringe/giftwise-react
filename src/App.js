@@ -7,9 +7,11 @@ import LogoIcon from './logo-icon.svg';
 import LogoTall from './logo-tall.svg';
 
 import toast, { Toaster } from 'react-hot-toast';
-import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
 import WishlistIndex from './views/WishlistIndex';
+import NewWish from './views/NewWish';
+
 import SignInBox from './components/SignInBox';
 
 function SidebarNav() {
@@ -150,7 +152,7 @@ function App() {
 						<Link className='logo' to="/">
 							<img src={LogoIcon} alt="Logo" />
 						</Link>
-						<Link className='user' to="/account" style={{ backgroundImage:`url(${profilePicture})` }}></Link>
+						<Link className='user-default' to="/account"><UserCircleIcon/></Link>
 		
 					</div>
 					<div className="sidebar">
@@ -162,7 +164,7 @@ function App() {
 						<SidebarNav/>
 						<div className="footer">
 							<Link className="footer-account" to="/account">
-								<div className="picture" style={{ backgroundImage:`url(${profilePicture})` }}></div>
+								<div className="picture-default"><UserCircleIcon/></div>
 								<div className="body">
 									<span>My Account</span>
 									<span>{user.name_full}</span>
@@ -181,6 +183,9 @@ function App() {
 						<Routes>
 							<Route path="/" element={
 								<WishlistIndex/>
+							} />
+							<Route path="/new" element={
+								<NewWish apiRoot={apiRoot}/>
 							} />
 							<Route path="/people" element={<h1>People</h1>} />
 							<Route path="/activity" element={<h1>Activity</h1>} />

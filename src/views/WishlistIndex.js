@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 import { UserGroupIcon, EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 
@@ -137,6 +138,20 @@ function WishlistIndex() {
                         <span></span>
                     </div>
                 </div>
+                <div className='list-item-skeleton'>
+                    <div className='image'></div>
+                    <div className='body'>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div className='list-item-skeleton'>
+                    <div className='image'></div>
+                    <div className='body'>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
             </div>
         </div>
         </>
@@ -146,7 +161,7 @@ function WishlistIndex() {
             <>
             <div className='wishlist-index-header'>
                 <WishlistSelector/>
-                <button className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></button>
+                <Link to="/new" className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></Link>
             </div>
             <div className='list-section'>
                 <div className='section-header'>

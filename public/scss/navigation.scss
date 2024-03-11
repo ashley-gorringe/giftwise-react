@@ -26,6 +26,27 @@
         background-size: cover;
         background-position: center;
     }
+    .user-default{
+        display: block;
+        position: relative;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        
+        background-color: transparent;
+        svg{
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: auto;
+            color: #bababa;
+            stroke-width: 2px;
+        }
+    }
 }
 
 .mobile-nav{
@@ -204,6 +225,26 @@
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
+        }
+        .picture-default{
+            display: block;
+            position: relative;
+            z-index: 1;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: transparent;
+            svg{
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 50px;
+                height: auto;
+                color: #bababa;
+                stroke-width: 1.6px;
+            }
         }
         .body{
             display: flex;
