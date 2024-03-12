@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 import { UserGroupIcon, EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 
@@ -49,8 +50,19 @@ function ListItem(props) {
 		</div>
 	);
 }
+function ListItemSkeleton() {
+    return(
+        <div className='list-item-skeleton'>
+            <div className='image'></div>
+            <div className='body'>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    );
+}
 
-function WishlistSelector() {
+function WishlistSelector(props) {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(); // Ref for the menu
 
@@ -75,92 +87,85 @@ function WishlistSelector() {
         };
     }, [menuRef]);
 
+    function AccountItem(props) {
+        return (
+            <button className='wishlist-selector-item'><div className='picture'></div><span>{props.name_full}</span></button>
+        );
+    }
+
     return (
         <div className={`wishlist-selector ${menuOpen ? '--open' : ''}`}>
             <button className='wishlist-selector-button' onClick={toggleMenu}><span>My Wishlist</span><ChevronDownIcon/></button>
             <div className='wishlist-selector-menu' ref={menuRef}>
                 <button className='wishlist-selector-close' onClick={toggleMenu}><span>My Wishlist</span><ChevronUpIcon/></button>
-                <button className='wishlist-selector-item'><div className='picture'></div><span>Mum's Wishlist</span></button>
+                {props.accounts.map((account, index) => (
+                    <AccountItem key={index} name_full={account.name_full} />
+                ))}
                 <button className='wishlist-selector-add'><PlusCircleIcon/><span>New Wishlist</span></button>
             </div>
         </div>
     );
 }
 
-function WishlistIndex() {
+function WishlistIndex(props) {
     const [isLoading, setIsLoading] = useState(true);
+    const [wishlistUid, setWishlistUid] = useState(props.user.primary_account);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
-        setTimeout(() => {
+        
+        fetch(`${props.apiRoot}/wishlists/${wishlistUid}?token=${localStorage.getItem('token')}`, {
+            method: 'GET',
+        })
+        .then(response => response.json()).then(data => {
+            
+            if(data.error){
+                toast.error(data.error);
+                setIsLoading(false);
+            }else{
+                setIsLoading(false);
+                setItems(data.items);
+            }
+
+        })
+        .catch((error) => {
+            toast.error('There was an error communicating with the server.');
             setIsLoading(false);
-        }, 500);
+        }
+        );
+
     }, []);
 
     if (isLoading) {
         return (
             <>
-        <div className='wishlist-index-header'>
-            <WishlistSelector/>
-            <button className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></button>
-        </div>
-        <div className='list-section'>
-            <div className='section-header'>
-                <span></span>
-                <h3>Just a sec...</h3>
-                <span></span>
+            <div className='wishlist-index-header'>
+                <div className='wishlist-selector-skeleton'></div>
+                <Link to="/new" className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></Link>
             </div>
-            <div className='grid'>
-                <div className='list-item-skeleton'>
-                    <div className='image'></div>
-                    <div className='body'>
-                        <span></span>
-                        <span></span>
-                    </div>
+            <div className='list-section'>
+                <div className='section-header'>
+                    <span></span>
+                    <h3>Just a sec...</h3>
+                    <span></span>
                 </div>
-                <div className='list-item-skeleton'>
-                    <div className='image'></div>
-                    <div className='body'>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-                <div className='list-item-skeleton'>
-                    <div className='image'></div>
-                    <div className='body'>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-                <div className='list-item-skeleton'>
-                    <div className='image'></div>
-                    <div className='body'>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-                <div className='list-item-skeleton'>
-                    <div className='image'></div>
-                    <div className='body'>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-                <div className='list-item-skeleton'>
-                    <div className='image'></div>
-                    <div className='body'>
-                        <span></span>
-                        <span></span>
-                    </div>
+                <div className='grid'>
+                    
+                    <ListItemSkeleton/>
+                    <ListItemSkeleton/>
+                    <ListItemSkeleton/>
+                    <ListItemSkeleton/>
+                    <ListItemSkeleton/>
+                    <ListItemSkeleton/>
                 </div>
             </div>
-        </div>
-        </>
+            </>
         );
     }else{
         return (
             <>
             <div className='wishlist-index-header'>
-                <WishlistSelector/>
+                <WishlistSelector accounts={props.user.accounts} />
                 <Link to="/new" className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></Link>
             </div>
             <div className='list-section'>
@@ -170,12 +175,9 @@ function WishlistIndex() {
                     <span></span>
                 </div>
                 <div className='grid'>
-                    <ListItem name="Some Android Smart Watch" price="£199.99" thumbnailSrc="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHNtYXJ0JTIwd2F0Y2h8ZW58MHwwfDB8fHww"/>
-                    <ListItem name="Noise Cancelling Headphones" price="£79.99" thumbnailSrc="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhZHBob25lc3xlbnwwfDB8MHx8fDA%3D"/>
-                    <ListItem name="Polestar 2 - Dual Motor Long Range" price="£56,422.00" thumbnailSrc="https://images.unsplash.com/photo-1626275035543-b15a5a67d74d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9sZXN0YXJ8ZW58MHwwfDB8fHww"/>
-                    <ListItem name="Uncomfortable designer chair" price="£235.00" thumbnailSrc="https://images.unsplash.com/photo-1554104707-a76b270e4bbb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2hhaXJ8ZW58MHwwfDB8fHww"/>
-                    <ListItem name="Brightly Coloured Socks" price="£12.50" thumbnailSrc="https://images.unsplash.com/photo-1535488407783-1c7c7152e48a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fHNvY2tzfGVufDB8MHwwfHx8MA%3D%3D"/>
-                    <ListItem name="Xbox Controller" price="£67.99" thumbnailSrc="https://images.unsplash.com/photo-1605640194512-2f7440046c2a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8eGJveCUyMGNvbnRyb2xsZXJ8ZW58MHwwfDB8fHww"/>
+                    {items.map((item, index) => (
+                        <ListItem key={index} name={item.title} price={0} thumbnailSrc="" />
+                    ))}
                 </div>
             </div>
             </>

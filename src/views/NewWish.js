@@ -17,7 +17,6 @@ function FormLink(props) {
 
         //get the form data from the form with ID sign-up-form
         const formData = new FormData(document.getElementById('link-form'));
-        console.log(formData.get('email'));
 
         if(formData.get('link') === ''){
             document.getElementById('link').closest('.form-group').classList.add('--error');
@@ -25,7 +24,7 @@ function FormLink(props) {
             setIsLoading(false);
         }else{
             const toastID = toast.loading('Getting product details...');
-            fetch(`${props.apiRoot}/items?type=link`, {
+            fetch(`${props.apiRoot}/items?type=link&token=${localStorage.getItem('token')}`, {
                 method: 'POST',
                 body: formData,
             })
@@ -44,6 +43,7 @@ function FormLink(props) {
             .catch((error) => {
                 toast.error('There was an error communicating with the server.');
                 setIsLoading(false);
+                toast.remove(toastID);
             }
             );
         }
@@ -77,11 +77,80 @@ function FormLink(props) {
 
 function FormManual(props) {
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        //send the email to the server
+        document.querySelectorAll('.form-group').forEach((formGroup) => {
+            formGroup.classList.remove('--error');
+        });
+
+        //get the form data from the form with ID sign-up-form
+        const formData = new FormData(document.getElementById('manual-form'));
+        console.log(formData);
+
+        fetch(`${props.apiRoot}/items?type=manual&token=${localStorage.getItem('token')}`, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json()).then(data => {
+            
+            if(data.error){
+                toast.error(data.error);
+                setIsLoading(false);
+            }else{
+                toast.success('Wish added!');
+                setIsLoading(false);
+                navigate('/');
+            }
+
+        })
+        .catch((error) => {
+            toast.error('There was an error communicating with the server.');
+            setIsLoading(false);
+        });
+        
+
+    }
+
+    function AccountSelector(props){
+
+        if(props.user.accounts.length === 0){
+            return(
+                <div className='form-group'>
+                    <label>Choose a Wishlist</label>
+                    <select className='input-select' id='wishlist' name='wishlist'>
+                        <option value={props.user.primary_account}>My Wishlist</option>
+                    </select>
+                    <div className='error-text'></div>
+                    <div className='helper-text'>Which wishlist would you like to add the item to?</div>
+                </div>
+            );
+        }else if(props.user.accounts.length > 0){
+            return(
+                <div className='form-group'>
+                    <label>Choose a Wishlist</label>
+                    <select className='input-select' id='wishlist' name='wishlist'>
+                        <option value={props.user.primary_account}>My Wishlist</option>
+                        {props.user.accounts.map((account) => {
+                            return <option key={account.account_uid} value={account.account_uid}>{account.name_full}</option>
+                        })}
+                    </select>
+                    <div className='error-text'></div>
+                    <div className='helper-text'>What's the name of the product or thing?</div>
+                </div>
+            );
+        }
+    };
+
     return(
         <div className='new-wish-manual-form'>
-            <form id='manual-form' className='form'>
+            <form id='manual-form' className='form' onSubmit={handleSubmit}>
                 <div className='row'>
                     <div className='column'>
+                        <AccountSelector user={props.user} />
                         <div className='form-group'>
                             <label>Wish Title</label>
                             <input className='input-text' type='text' id='title' name='title' defaultValue={props.product?.title} />
@@ -90,15 +159,14 @@ function FormManual(props) {
                         </div>
                         <div className='form-group'>
                             <label>Desciption</label>
-                            <textarea className='input-textarea' rows={5} id='desciption' name='desciption'>{props.product?.description}</textarea>
+                            <textarea className='input-textarea' rows={5} id='description' name='description' defaultValue={props.product?.description}></textarea>
                             <div className='error-text'></div>
                             <div className='helper-text'>Any extra notes?</div>
                         </div>
                         <div className='form-group'>
                             <label>Product Link</label>
-                            <input className='input-text' type='text' id='link' name='link' placeholder='https://example.com' defaultValue={props.product?.url} />
+                            <input className='input-text' type='text' id='url' name='url' placeholder='https://example.com' defaultValue={props.product?.url} />
                             <div className='error-text'></div>
-                            <div className='helper-text'>We'll try to fetch the product details for you</div>
                         </div>
                     </div>
                     <div className='column'>
@@ -128,7 +196,7 @@ function NewWish(props){
             </div>
             <h1>Add a New Wish</h1>
         </div>
-        {formStage === 'link' ? <FormLink apiRoot={props.apiRoot} setFormStage={setFormStage} setProduct={setProduct} /> : <FormManual apiRoot={props.apiRoot} product={product} />}
+        {formStage === 'link' ? <FormLink apiRoot={props.apiRoot} setFormStage={setFormStage} setProduct={setProduct} /> : <FormManual apiRoot={props.apiRoot} product={product} user={props.user} />}
         </>
     );
 }
