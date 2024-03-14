@@ -28,15 +28,25 @@ function ListItem(props) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [menuRef]);
+
+    let thumbnailSrc = 'https://via.placeholder.com/500';
+    if(props.images){
+        thumbnailSrc = props.images['500'];
+    }
+
+    let price = '£ ???';
+    if(props.price){
+        price = '£ ' + props.price;
+    }
 	
 	return(
 		<div className={`list-item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
 			<button className='list-item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
 			<a href="#" className='list-item'>
-				<div className='image' style={{ backgroundImage: 'url('+props.thumbnailSrc+')' }}></div>
+				<div className='image' style={{ backgroundImage: 'url('+thumbnailSrc+')' }}></div>
 				<div className='body'>
 					<h4>{props.name}</h4>
-					<span className='price'>{props.price}</span>
+					<span className='price'>{price}</span>
 				</div>
 			</a>
 			<div ref={menuRef} className='list-item-menu'>
@@ -176,7 +186,7 @@ function WishlistIndex(props) {
                 </div>
                 <div className='grid'>
                     {items.map((item, index) => (
-                        <ListItem key={index} name={item.title} price={0} thumbnailSrc="" />
+                        <ListItem key={index} name={item.title} price={item.value} images={item.images} />
                     ))}
                 </div>
             </div>
