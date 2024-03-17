@@ -36,16 +36,56 @@ function AppMain(props){
         );
     }
 
-    document.addEventListener('wheel', function(event) {
-        var mainBody = document.getElementById('main');
-        var toScroll = mainBody.scrollTop + event.deltaY;
-    
-        // Scroll the main body element
-        mainBody.scrollTop = toScroll;
-    
-        // Prevent the default scroll behavior to avoid scrolling the entire page
-        event.preventDefault();
-    }, { passive: false });
+    useEffect(() => {
+        const handleWheel = (event) => {
+            var mainBody = document.getElementById('main');
+            if (mainBody) {
+                var toScroll = mainBody.scrollTop + event.deltaY;
+                mainBody.scrollTop = toScroll;
+                event.preventDefault();
+            }
+        };
+
+        // Add the event listener
+        document.addEventListener('wheel', handleWheel, { passive: false });
+
+        // Cleanup function to remove the event listener
+        return () => {
+            document.removeEventListener('wheel', handleWheel, { passive: false });
+        };
+    }, []);
+
+    function SidebarProfilePicture() {
+
+        if(props.user['picture'] !== null){
+            return (
+                <div className="picture" style={{ backgroundImage: 'url('+props.user.picture+')' }}></div>
+            );
+        }else{
+            return (
+                <div className="picture-default">
+                    <UserCircleIcon/>
+                </div>
+            );
+        }
+    }
+
+    function MobileProfilePicture() {
+        if(props.user['picture'] !== null){
+            return (
+                <Link className='user' to="/account" style={{ backgroundImage: 'url('+props.user.picture+')' }}></Link>
+            );
+        }else{
+            return (
+                <Link className='user-default' to="/account"><UserCircleIcon/></Link>
+            );
+        }
+    }
+
+    const handleSignOut = () => {
+        props.handleSignOut();
+    }
+
     return(
         <>
         <Toaster position="bottom-center"/>
@@ -54,7 +94,7 @@ function AppMain(props){
                 <Link className='logo' to="/">
                     <img src={LogoIcon} alt="Logo" />
                 </Link>
-                <Link className='user-default' to="/account"><UserCircleIcon/></Link>
+                <MobileProfilePicture/>
 
             </div>
             <div className="sidebar">
@@ -66,10 +106,10 @@ function AppMain(props){
                 <SidebarNav/>
                 <div className="footer">
                     <Link className="footer-account" to="/account">
-                        <div className="picture-default"><UserCircleIcon/></div>
+                        <SidebarProfilePicture/>
                         <div className="body">
                             <span>My Account</span>
-                            <span>{props.user.name_full}</span>
+                            <span>{props.user.name_preferred}</span>
                         </div>
                     </Link>
                     <div className="footer-links">
@@ -94,7 +134,7 @@ function AppMain(props){
                     <Route path="/account" element={
                         <>
                         <h1>Account</h1>
-                        <button className='button' onClick={props.handleSignOut}><span>Sign Out</span></button>
+                        <button className='button' onClick={handleSignOut}><span>Sign Out</span></button>
                         </>
                     } />
                     <Route path="*" element={<h1>Not Found</h1>} />

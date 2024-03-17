@@ -48,6 +48,7 @@ function App() {
 					setIsLoading(false);
 				}else{
 					//set the user in the app state
+					//console.log(data);
 					setUser(data.user);
 					setIsSignedIn(true);
 					setIsLoading(false);

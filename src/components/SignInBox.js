@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
+import { FileUploader } from "react-drag-drop-files";
+import { ArrowUpTrayIcon, TrashIcon } from '@heroicons/react/24/outline';
+
 function FormWelcome(props) {
     const [isLoading, setIsLoading] = useState(false);
 
@@ -59,7 +62,7 @@ function FormWelcome(props) {
         <form className='form' onSubmit={handleSubmit}>
             <div className='form-group'>
                 <label>Email Address</label>
-                <input className='input-text' id='email' type='email' placeholder='example@email.com' autoFocus/>
+                <input className='input-text' id='email' type='email' placeholder='example@email.com' autoFocus disabled={isLoading}/>
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
@@ -123,12 +126,12 @@ function FormSignIn(props) {
         <form className='form' id='sign-in-form' onSubmit={handleSubmit}>
             <div className='form-group'>
                 <label>Email Address</label>
-                <input className='input-text' type='email' name='email' placeholder='example@email.com' defaultValue={props.email} />
+                <input className='input-text' type='email' name='email' placeholder='example@email.com' defaultValue={props.email} disabled={isLoading} />
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Password</label>
-                <input className='input-text' type='password' name='password' autoFocus />
+                <input className='input-text' type='password' name='password' autoFocus disabled={isLoading} />
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
@@ -142,6 +145,45 @@ function FormSignIn(props) {
 
 function FormSignUp(props) {
     const [isLoading, setIsLoading] = useState(false);
+    const [file, setFile] = useState(null);
+    const fileTypes = ["JPEG", "JPG", "PNG"];
+
+    function FileUploadGroup(){
+        const handleChange = (file) => {
+            setFile(file);
+            console.log(file);
+        };
+        const FileUploaderClasses = file ? 'image-upload --has-image' : 'image-upload';
+        function FileUploaderChildren(){
+            if(file){
+                return (
+                    <>
+                    <div className='image-preview' style={{ backgroundImage: `url(${URL.createObjectURL(file)})` }}></div>
+                    </>
+                );
+            }else{
+                return (
+                    <>
+                    <ArrowUpTrayIcon/>
+                    <span>Click here or drag in an image</span>
+                    </>
+                );
+            }
+        }
+        return(
+            <FileUploader
+                multiple={false}
+                handleChange={handleChange}
+                name="image"
+                types={fileTypes}
+                classes={FileUploaderClasses}
+                children={<FileUploaderChildren/>}
+                hoverTitle="Drop your image here"
+                dropMessageStyle={{display: 'none'}}
+                disabled={isLoading}
+            />
+        );
+    };
 
     const handleBack = (e) => {
         e.preventDefault();
@@ -160,6 +202,7 @@ function FormSignUp(props) {
 
         //get the form data from the form with ID sign-up-form
         const formData = new FormData(document.getElementById('sign-up-form'));
+        formData.set('image', file);
         fetch(`${props.apiRoot}/users/`, {
             method: 'POST',
             body: formData,
@@ -192,29 +235,37 @@ function FormSignUp(props) {
 
     return (
         <form className='form' id='sign-up-form' onSubmit={handleSubmit}>
+            <div className='form-group' id='form-group-image'>
+                <label id='group-label'>Picture</label>
+                <FileUploadGroup />
+                <div className='error-text'></div>
+                <div className='helper-text'>This will be shown to other people when you connect with them on Giftwise.</div>
+            </div>
             <div className='form-group'>
                 <label>Email Address</label>
-                <input className='input-text' type='email' name='email' placeholder='example@email.com' defaultValue={props.email} />
+                <input className='input-text' type='email' name='email' placeholder='example@email.com' defaultValue={props.email} disabled={isLoading} />
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Full Name</label>
-                <input className='input-text' type='text' name='name_full' autoFocus />
+                <input className='input-text' type='text' name='name_full' autoFocus disabled={isLoading} />
                 <div className='error-text'></div>
+                <div className='helper-text'>This will be shown to other people when you connect with them on Giftwise.</div>
             </div>
             <div className='form-group'>
                 <label>Preferred Name</label>
-                <input className='input-text' type='text' name='name_preferred' />
+                <input className='input-text' type='text' name='name_preferred' disabled={isLoading} />
                 <div className='error-text'></div>
+                <div className='helper-text'>What would you like us to call you? Only you will see this.</div>
             </div>
             <div className='form-group'>
                 <label>Password</label>
-                <input className='input-text' type='password' name='password' />
+                <input className='input-text' type='password' name='password' disabled={isLoading} />
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
                 <label>Re-enter Password</label>
-                <input className='input-text' type='password' name='password_re' />
+                <input className='input-text' type='password' name='password_re' disabled={isLoading} />
                 <div className='error-text'></div>
             </div>
             <div className='form-group'>
