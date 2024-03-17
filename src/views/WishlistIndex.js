@@ -2,64 +2,83 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 
+import Placeholder1 from '../placeholder-1.svg';
+import Placeholder2 from '../placeholder-2.svg';
+import Placeholder3 from '../placeholder-3.svg';
+import Placeholder4 from '../placeholder-4.svg';
+
 import { UserGroupIcon, EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 
 function ListItem(props) {
-	const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(); // Ref for the menu
 
-    // Toggle menu function
+    // Initialize placeholderNum only once on the first render
+    const [placeholderNum] = useState(() => Math.floor(Math.random() * 4) + 1);
+
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
     useEffect(() => {
-        // Function to check if clicked outside
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setMenuOpen(false);
             }
         };
 
-        // Bind the event listener
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [menuRef]);
 
-    let thumbnailSrc = 'https://via.placeholder.com/500';
-    if(props.images){
+    let thumbnailSrc;
+    if (placeholderNum === 1) {
+        thumbnailSrc = Placeholder1;
+    } else if (placeholderNum === 2) {
+        thumbnailSrc = Placeholder2;
+    } else if (placeholderNum === 3) {
+        thumbnailSrc = Placeholder3;
+    } else if (placeholderNum === 4) {
+        thumbnailSrc = Placeholder4;
+    }
+    if (props.images) {
         thumbnailSrc = props.images['500'];
     }
 
-    let price = '£ ???';
-    if(props.price){
+    let price = '£ -';
+    if (props.price) {
         price = '£ ' + props.price;
     }
-	
-	return(
-		<div className={`list-item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
-			<button className='list-item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
-			<a href="#" className='list-item'>
-				<div className='image' style={{ backgroundImage: 'url('+thumbnailSrc+')' }}></div>
-				<div className='body'>
-					<h4>{props.name}</h4>
-					<span className='price'>{price}</span>
-				</div>
-			</a>
-			<div ref={menuRef} className='list-item-menu'>
-				<a href="#"><PencilSquareIcon/><span>Edit</span></a>
-				<a href="#"><EyeSlashIcon/><span>Private</span></a>
-				<a href="#"><UserGroupIcon/><span>Friends & Family</span></a>
-				<a href="#"><EyeIcon/><span>Public</span></a>
-				<div className='divider'></div>
-				<a className='--danger' href="#"><TrashIcon/><span>Delete</span></a>
-			</div>
-		</div>
-	);
+
+    const handleDelete = () => {
+        props.handleDelete(props.uid);
+        setMenuOpen(false); // Dismiss the menu
+    };
+
+    return (
+        <div key={props.key} className={`list-item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
+            <button className='list-item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
+            <a href="#" className='list-item'>
+                <div className='image' style={{ backgroundImage: 'url('+thumbnailSrc+')' }}></div>
+                <div className='body'>
+                    <h4>{props.name}</h4>
+                    <span className='price'>{price}</span>
+                </div>
+            </a>
+            <div ref={menuRef} className='list-item-menu'>
+                <a href="#"><PencilSquareIcon/><span>Edit</span></a>
+                <a href="#"><EyeSlashIcon/><span>Private</span></a>
+                <a href="#"><UserGroupIcon/><span>Friends & Family</span></a>
+                <a href="#"><EyeIcon/><span>Public</span></a>
+                <div className='divider'></div>
+                <a className='--danger' href="#" onClick={handleDelete}><TrashIcon/><span>Delete</span></a>
+            </div>
+        </div>
+    );
 }
+
 function ListItemSkeleton() {
     return(
         <div className='list-item-skeleton'>
@@ -146,6 +165,27 @@ function WishlistIndex(props) {
 
     }, []);
 
+    const handleItemDelete = (uid) => {
+        //loading toast
+        const toastId = toast.loading('Deleting item...');
+        fetch(`${props.apiRoot}/items/${uid}?token=${localStorage.getItem('token')}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json()).then(data => {
+            if(data.error){
+                toast.error(data.error);
+            }else{
+                toast.success('Item deleted.');
+                toast.dismiss(toastId);
+
+                setItems(items => items.filter(item => item.item_uid !== uid));
+            }
+        })
+        .catch((error) => {
+            toast.error('There was an error communicating with the server.');
+        });
+    };
+
     if (isLoading) {
         return (
             <>
@@ -154,11 +194,11 @@ function WishlistIndex(props) {
                 <Link to="/new" className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></Link>
             </div>
             <div className='list-section'>
-                <div className='section-header'>
+                {/* <div className='section-header'>
                     <span></span>
                     <h3>Just a sec...</h3>
                     <span></span>
-                </div>
+                </div> */}
                 <div className='grid'>
                     
                     <ListItemSkeleton/>
@@ -179,14 +219,14 @@ function WishlistIndex(props) {
                 <Link to="/new" className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></Link>
             </div>
             <div className='list-section'>
-                <div className='section-header'>
+                {/* <div className='section-header'>
                     <span></span>
                     <h3>Visible to only me</h3>
                     <span></span>
-                </div>
+                </div> */}
                 <div className='grid'>
                     {items.map((item, index) => (
-                        <ListItem key={index} name={item.title} price={item.value} images={item.images} />
+                        <ListItem key={index} uid={item.item_uid} name={item.title} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
                     ))}
                 </div>
             </div>

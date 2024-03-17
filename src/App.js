@@ -27,7 +27,7 @@ function App() {
 
 	const navigate = useNavigate();
 
-	const apiRoot = 'http://localhost:8010/proxy';
+	const apiRoot = window.location.hostname === 'localhost' ? 'http://localhost:8010/proxy' : 'https://api.giftwise.app';
 
 	useEffect(() => {
         const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;

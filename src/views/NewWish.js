@@ -81,7 +81,7 @@ function FormManual(props) {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
-    const fileTypes = ["JPEG", "JPG", "PNG", "GIF"];
+    const fileTypes = ["JPEG", "JPG", "PNG"];
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -133,17 +133,15 @@ function FormManual(props) {
                 <div className='account-selector'>
                     <div className='form-group' id='form-group-wishlist'>
                         <label>Choose a Wishlist</label>
-                        <select className='input-select' id='wishlist' name='wishlist'>
+                        <select className='input-select' id='wishlist' name='wishlist' disabled={isLoading}>
                             <option value={props.user.primary_account}>My Wishlist</option>
                         </select>
                         <div className='error-text'></div>
                     </div>
                     <div className='form-group' id='form-group-privacy'>
                         <label>Who can see this?</label>
-                        <select className='input-select' id='privacy' name='privacy' defaultValue={'1'}>
-                            <option value="0">Public</option>
+                        <select className='input-select' id='privacy' name='privacy' defaultValue={'1'} disabled>
                             <option value="1">Friends & Family</option>
-                            <option value="2">Just me</option>
                         </select>
                         <div className='error-text'></div>
                     </div>
@@ -154,7 +152,7 @@ function FormManual(props) {
                 <div className='account-selector'>
                     <div className='form-group' id='form-group-wishlist'>
                         <label>Choose a Wishlist</label>
-                        <select className='input-select' id='wishlist' name='wishlist'>
+                        <select className='input-select' id='wishlist' name='wishlist' disabled={isLoading}>
                             <option value={props.user.primary_account}>My Wishlist</option>
                             {props.user.accounts.map((account) => {
                                 return <option key={account.account_uid} value={account.account_uid}>{account.name_full}</option>
@@ -164,10 +162,8 @@ function FormManual(props) {
                     </div>
                     <div className='form-group' id='form-group-privacy'>
                         <label>Who can see this?</label>
-                        <select className='input-select' id='privacy' name='privacy' defaultValue={'1'}>
-                            <option value="0">Public</option>
+                        <select className='input-select' id='privacy' name='privacy' defaultValue={'1'} disabled>
                             <option value="1">Friends & Family</option>
-                            <option value="2">Just me</option>
                         </select>
                         <div className='error-text'></div>
                     </div>
@@ -207,6 +203,7 @@ function FormManual(props) {
                 children={<FileUploaderChildren/>}
                 hoverTitle="Drop your image here"
                 dropMessageStyle={{display: 'none'}}
+                disabled={isLoading}
             />
         );
     };
@@ -218,18 +215,18 @@ function FormManual(props) {
                         <AccountSelector user={props.user} />
                         <div className='form-group' id='form-group-title'>
                             <label>Wish Title</label>
-                            <input className='input-text' type='text' id='title' name='title' defaultValue={props.product?.title} />
+                            <input className='input-text' type='text' id='title' name='title' defaultValue={props.product?.title} disabled={isLoading}/>
                             <div className='error-text'></div>
                         </div>
                         <div className='form-group' id='form-group-url'>
                             <label>Product Link</label>
-                            <input className='input-text' type='text' id='url' name='url' placeholder='https://example.com' defaultValue={props.product?.url} />
+                            <input className='input-text' type='text' id='url' name='url' placeholder='https://example.com' defaultValue={props.product?.url} disabled={isLoading} />
                             <div className='error-text'></div>
                         </div>
                         <div className='form-group' id='form-group-price'>
                             <label>Price</label>
                             <div className='input-price'>
-                                <select className='currency-select' id='currency' name='currency' defaultValue={'gbp'}>
+                                <select className='currency-select' id='currency' name='currency' defaultValue={'gbp'} disabled={isLoading}>
                                     <option value="gbp">£ (GBP)</option>
                                 </select>
                                 <CurrencyInput
@@ -239,13 +236,14 @@ function FormManual(props) {
                                 defaultValue={null}
                                 decimalsLimit={2}
                                 onValueChange={(value, name, values) => console.log(value, name, values)}
+                                disabled={isLoading}
                                 />
                             </div>
                             <div className='error-text'></div>
                         </div>
                         <div className='form-group' id='form-group-description'>
                             <label>Additional Notes</label>
-                            <textarea className='input-textarea' rows={6} id='description' name='description' defaultValue={props.product?.description}></textarea>
+                            <textarea className='input-textarea' rows={6} id='description' name='description' defaultValue={props.product?.description} disabled={isLoading}></textarea>
                             <div className='error-text'></div>
                             <div className='helper-text'>Do you need to add any specific details to this wish?</div>
                         </div>
