@@ -376,6 +376,7 @@ body{
             border-radius: 10px;
             padding: 0 15px;
             font-size: 16px;
+            color: $color-dark!important;
             &:disabled{
                 background-color: #e5e5e5;
             }
@@ -390,6 +391,7 @@ body{
             border-radius: 10px;
             padding: 15px 15px;
             font-size: 16px;
+            color: $color-dark!important;
             &:disabled{
                 background-color: #e5e5e5;
             }
@@ -404,6 +406,7 @@ body{
             border-radius: 10px;
             padding: 0 15px;
             font-size: 16px;
+            color: $color-dark!important;
             //better arrow
             appearance: none;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>');
@@ -506,6 +509,7 @@ body{
     z-index: 1;
     transition: transform 0.1s;
     outline: none;
+    color: inherit;
     &::after{
         content: '';
         display: block;
@@ -526,7 +530,7 @@ body{
         line-height: 1em;
         font-weight: 600;
         text-align: center;
-    
+        color: inherit;
     }
 
     &:hover{
