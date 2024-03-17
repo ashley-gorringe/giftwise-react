@@ -52,9 +52,19 @@ function ListItem(props) {
         price = '£ ' + props.price;
     }
 
-    const handleDelete = () => {
+    const handleDelete = (event) => {
+        event.preventDefault();
         props.handleDelete(props.uid);
         setMenuOpen(false); // Dismiss the menu
+    };
+
+    const handleEdit = (event) => {
+        event.preventDefault();
+        toast('Coming soon!');
+    };
+    const handlePrivacy = (event) => {
+        event.preventDefault();
+        toast('Coming soon!');
     };
 
     return (
@@ -68,10 +78,9 @@ function ListItem(props) {
                 </div>
             </a>
             <div ref={menuRef} className='list-item-menu'>
-                <a href="#"><PencilSquareIcon/><span>Edit</span></a>
-                <a href="#"><EyeSlashIcon/><span>Private</span></a>
-                <a href="#"><UserGroupIcon/><span>Friends & Family</span></a>
-                <a href="#"><EyeIcon/><span>Public</span></a>
+                <a href="#" onClick={handleEdit}><PencilSquareIcon/><span>Edit</span></a>
+                <a href="#" onClick={handlePrivacy}><EyeSlashIcon/><span>Private</span></a>
+                <a href="#" onClick={handlePrivacy}><EyeIcon/><span>Public</span></a>
                 <div className='divider'></div>
                 <a className='--danger' href="#" onClick={handleDelete}><TrashIcon/><span>Delete</span></a>
             </div>
