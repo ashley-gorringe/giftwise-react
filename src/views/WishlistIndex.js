@@ -61,10 +61,12 @@ function ListItem(props) {
     const handleEdit = (event) => {
         event.preventDefault();
         toast('Coming soon!');
+        setMenuOpen(false); // Dismiss the menu
     };
     const handlePrivacy = (event) => {
         event.preventDefault();
         toast('Coming soon!');
+        setMenuOpen(false); // Dismiss the menu
     };
 
     return (
