@@ -70,7 +70,7 @@ function ListItem(props) {
     };
 
     return (
-        <div key={props.key} className={`list-item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
+        <div className={`list-item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
             <button className='list-item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
             <a href="#" className='list-item'>
                 <div className='image' style={{ backgroundImage: 'url('+thumbnailSrc+')' }}></div>

@@ -16,65 +16,39 @@ body{
 
 #root{
     width: 100%;
-    height: 100dvh;
+    min-height: 100dvh;
+    height: auto;
 }
 
 .app{
-    display: grid;
+    display: block;
     width: 100%;
-    height: 100%;
-    padding: 30px;
-    grid-template-columns: 300px 1fr;
-    column-gap: 30px;
-    .main-inset-shadow{
-        display: block;
-        position: absolute;
-        top: 30px;
-        right: 30px;
-        width: calc(100% - 390px);
-        height: calc(100% - 60px);
-        background-color: transparent;
-        border-radius: 20px;
-        z-index: 1;
-        box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
-        pointer-events: none;
-    }
+    min-height: 100dvh;
+    background-color: #F3FAEE;
     main{
         display: block;
         position: relative;
         width: 100%;
         height: 100%;
-        background-color: #F3FAEE;
-        
-        border-radius: 20px;
-        padding: 30px 50px;
-        overflow-y: scroll;
-        overscroll-behavior: auto;
-        scrollbar-width: none; /* For Firefox */
-        -ms-overflow-style: none;
+        padding: 50px 50px;
+        padding-left: 400px;
         container-type: inline-size;
-        &::-webkit-scrollbar {
-            display: none; /* For Chrome, Safari, and Opera */
-        }
         h1{
             font-family: 'Sentient', serif;
             font-weight: 700;
             color: #637A53;
         }
     }
-
-    @media (max-width: 1600px){
-        grid-template-columns: 250px 1fr;
-        .main-inset-shadow{
-            width: calc(100% - 340px);
+    @media (max-width: 1500px){
+        main{
+            padding-left: 350px;
+        }
+        .sidebar{
+            width: 300px;
+            padding: 50px 40px;
         }
     }
-
     @media (max-width: 930px){
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
-        padding: 0 15px;
         .sidebar{
             display: none;
         }
@@ -82,16 +56,10 @@ body{
             display: flex;
         }
         main{
-            padding:15px;
+            padding:80px 15px;
         }
         .mobile-nav{
             display: flex;
-        }
-        .main-inset-shadow{
-            width: calc(100% - 30px);
-            height: calc(100% - 120px);
-            right: 15px;
-            top: 60px;
         }
         &.--pwa{
             padding-bottom: 22px;
@@ -103,6 +71,9 @@ body{
 
     &.--pwa{
         padding-bottom: 22px;
+        .mobile-nav{
+            height: 82px;
+        }
     }
 
     &.app-sign-in{

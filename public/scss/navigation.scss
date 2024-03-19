@@ -1,10 +1,17 @@
 .top-bar{
     display: none;
-    position: relative;
-    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    justify-content: center;
     align-items: center;
+    width: 100%;
     height: 60px;
     padding: 0 20px;
+    background-color: white;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1);
     .logo{
         display: block;
         position: relative;
@@ -14,48 +21,24 @@
             width: auto;
         }
     }
-    .user{
-        display: block;
-        position: relative;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #F8F8F8;
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-    }
-    .user-default{
-        display: block;
-        position: relative;
-        z-index: 1;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        
-        background-color: transparent;
-        svg{
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: auto;
-            color: #bababa;
-            stroke-width: 2px;
-        }
-    }
 }
 
 .mobile-nav{
     display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     flex-direction: row;
     height: 60px;
+    width: 100%;
     padding: 0;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
+    z-index: 100;
+    background-color: white;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1);
     a{
         display: flex;
         position: relative;
@@ -100,10 +83,20 @@
 
 .sidebar{
     display: grid;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 100%;
+    background-color: white;
     grid-template-rows: auto 1fr auto;
     row-gap: 30px;
-    padding: 30px 15px;
+    padding: 50px;
     align-items: center;
+    z-index: 1;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1), 0 0 0px 1px rgba(0, 0, 0, 0.1);
     .logo{
         display: flex;
         a{
