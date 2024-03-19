@@ -31,6 +31,9 @@
         transform: translateX(0);
         visibility: visible;
     }
+    &.--pwa{
+        padding-bottom: 60px;
+    }
 }
 .modal{
     display: block;
@@ -61,6 +64,7 @@
         }
         .modal-close{
             display: block;
+            position: relative;
             width: 48px;
             height: 48px;
             background: white;
@@ -69,6 +73,10 @@
             border-radius: 50%;
             box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
             svg{
+                display: block;
+                position: absolute;
+                top: calc(50% - 14px);
+                left: calc(50% - 14px);
                 width: 28px;
                 height: 28px;
                 color: $color-dark;

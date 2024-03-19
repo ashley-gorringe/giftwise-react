@@ -56,7 +56,7 @@ body{
             display: flex;
         }
         main{
-            padding:80px 15px;
+            padding:90px 15px;
         }
         .mobile-nav{
             display: flex;
@@ -429,6 +429,7 @@ body{
                 background-repeat: no-repeat;
                 background-position: right 0px top 50%;
                 background-size: 18px;
+                color: $color-dark!important;
                 &:hover{
                     cursor: pointer;
                 }
@@ -805,42 +806,54 @@ body{
             z-index: 1;
         }
     }
-
-    .wishlist-add-item-button{
-        display:flex;
+    .actions{
+        display: flex;
         position: relative;
-        height: 60px;
-        width: auto;
-        padding: 0 30px;
-        padding-left: 70px;
         align-items: center;
-        background-color: $color-primary;
-        box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
-        border: none;
-        border-radius: 100px;
-        text-decoration: none;
-        svg{
-            display: block;
-            position: absolute;
-            height: auto;
-            height: 30px;
-            left: 30px;
-            color: white;
-            stroke-width: 2px;
-        }
-        span{
-            display: block;
+        justify-content: flex-end;
+        gap: 10px;
+        button{
+            display:flex;
             position: relative;
-            font-size: 24px;
-            line-height: 1em;
-            font-weight: 700;
-            color: white;
-            font-family: 'Sentient', serif;
+            height: 60px;
+            width: auto;
+            padding: 0 30px;
+            padding-left: 70px;
+            align-items: center;
+            background-color: #E5EDDF;
+            color: #637A53;
+            box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 100px;
+            text-decoration: none;
+            svg{
+                display: block;
+                position: absolute;
+                height: auto;
+                height: 30px;
+                left: 30px;
+                color: inherit;
+                stroke-width: 2px;
+            }
+            span{
+                display: block;
+                position: relative;
+                font-size: 24px;
+                line-height: 1em;
+                font-weight: 700;
+                color: inherit;
+                font-family: 'Sentient', serif;
+            }
+
+            &.--primary{
+                background-color: $color-primary;
+                color: white;
+            }
         }
     }
 
     @container (max-width: 900px) {
-        .wishlist-add-item-button{
+        .actions button{
             width: 60px;
             padding:0;
             span{
@@ -872,8 +885,8 @@ body{
             }
 
             .wishlist-selector-menu{
-                width:calc(100% + 65px);
-                max-width: calc(100% + 65px);
+                width:calc(100% + 122px);
+                max-width: calc(100% + 122px);
                 border-radius: 28px;
                 gap: 10px;
                 .wishlist-selector-close{
@@ -918,7 +931,7 @@ body{
             }
         }
 
-        .wishlist-add-item-button{
+        .actions button{
             height: 46px;
             width: 46px;
         }

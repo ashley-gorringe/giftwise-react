@@ -24,6 +24,13 @@ function Modal(props){
         if (modalData && modalData['type'] === 'new-wish') {
             setModalTitle('Add a new wish'); // Correctly call setModalTitle as a function
             setModalBody(<ModalNewWish apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData} />); // Correctly call setModalBody as a function
+        }else if (modalData && modalData['type'] === 'share-list') {
+            setModalTitle('Share this List'); // Correctly call setModalTitle as a function
+            setModalBody(
+                <div className='modal-body'>
+                    <p>Coming soon...</p>
+                </div>
+            );
         }
     }, [modalData]); // This effect depends on modalData
     
@@ -31,7 +38,7 @@ function Modal(props){
     return(
         <>
         <div className={`modal-overlay ${props.modalActive ? '--active' : ''}`} onClick={handleClose}></div>
-        <div className={`modal-wrapper ${props.modalActive ? '--active' : ''}`}>
+        <div className={`modal-wrapper ${props.modalActive ? '--active' : ''} ${props.isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
             <div className="modal">
                 <div className='modal-header'>
                     <h2>{modalTitle}</h2>

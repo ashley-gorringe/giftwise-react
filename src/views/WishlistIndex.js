@@ -7,7 +7,7 @@ import Placeholder2 from '../placeholder-2.svg';
 import Placeholder3 from '../placeholder-3.svg';
 import Placeholder4 from '../placeholder-4.svg';
 
-import { UserGroupIcon, EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { UserGroupIcon, EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, PlusCircleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 
 function ListItem(props) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -181,6 +181,10 @@ function WishlistIndex(props) {
         event.preventDefault();
         props.setModal({type: 'new-wish', wishlist: wishlistUid, getItems: getItems});
     };
+    const handleShareList = (event) => {
+        event.preventDefault();
+        props.setModal({type: 'share-list', wishlist: wishlistUid});
+    };
 
 
     const handleItemDelete = (uid) => {
@@ -209,7 +213,6 @@ function WishlistIndex(props) {
             <>
             <div className='wishlist-index-header'>
                 <div className='wishlist-selector-skeleton'></div>
-                <button className='wishlist-add-item-button' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
             </div>
             <div className='list-section'>
                 {/* <div className='section-header'>
@@ -234,7 +237,10 @@ function WishlistIndex(props) {
             <>
             <div className='wishlist-index-header'>
                 <WishlistSelector accounts={props.user.accounts} />
-                <button className='wishlist-add-item-button' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
+                <div className='actions'>
+                    <button onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
+                    <button className='--primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
+                </div>
             </div>
             <div className='list-section'>
                 {/* <div className='section-header'>
