@@ -14,26 +14,50 @@ function AppMain(props){
 
     function SidebarNav() {
         const location = useLocation();
+
+        function AccountMenuItem(){
+            if(props.user['picture']) {
+                return (
+                    <Link to="/account" className={location.pathname === '/account' ? '--active' : ''}><div className='inner'><div className='picture' style={{ backgroundImage: 'url('+props.user['picture']+')' }}></div><span>My Account</span></div></Link>
+                );
+            }else{
+                return (
+                    <Link to="/account" className={location.pathname === '/account' ? '--active' : ''}><div className='inner'><UserCircleIcon/><span>My Account</span></div></Link>
+                );
+            }
+        }
     
         return (
             <nav className='sidebar-nav'>
                 <Link to="/" className={location.pathname === '/' ? '--active' : ''}><div className='inner'><QueueListIcon/><span>My Wishlist</span></div></Link>
                 <Link to="/people" className={location.pathname === '/people' ? '--active' : ''}><div className='inner'><UserGroupIcon/><span>People</span></div></Link>
                 <Link to="/activity" className={location.pathname === '/activity' ? '--active' : ''}><div className='inner'><BellAlertIcon/><span>Activity</span></div></Link>
-                <Link to="/account" className={location.pathname === '/account' ? '--active' : ''}><div className='inner'><UserCircleIcon/><span>My Account</span></div></Link>
+                <AccountMenuItem/>
             </nav>
         );
     }
     
     function MobileNav() {
         const location = useLocation();
+
+        function AccountMenuItem(){
+            if(props.user['picture']) {
+                return (
+                <Link to="/account" className={location.pathname === '/account' ? '--active' : ''}><div className='picture' style={{ backgroundImage: 'url('+props.user['picture']+')' }}></div><span>My Account</span></Link>
+                );
+            }else{
+                return (
+                    <Link to="/account" className={location.pathname === '/account' ? '--active' : ''}><UserCircleIcon/><span>My Account</span></Link>
+                );
+            }
+        }
     
         return (
             <div className='mobile-nav'>
                 <Link to="/" className={location.pathname === '/' ? '--active' : ''}><HomeIcon/><span>My Wishlist</span></Link>
                 <Link to="/people" className={location.pathname === '/people' ? '--active' : ''}><UserGroupIcon/><span>People</span></Link>
                 <Link to="/activity" className={location.pathname === '/activity' ? '--active' : ''}><BellAlertIcon/><span>Activity</span></Link>
-                <Link to="/account" className={location.pathname === '/account' ? '--active' : ''}><UserCircleIcon/><span>My Account</span></Link>
+                <AccountMenuItem/>
             </div>
         );
     }
@@ -53,9 +77,9 @@ function AppMain(props){
             </div>
             <div className="sidebar">
                 <div className="logo">
-                    <a href="/">
+                    <Link to="/">
                         <img src={LogoFull} alt="Logo" />
-                    </a>
+                    </Link>
                 </div>
                 <SidebarNav/>
                 <div className="footer">
