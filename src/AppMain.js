@@ -9,8 +9,16 @@ import LogoTall from './logo-tall.svg';
 
 import WishlistIndex from './views/WishlistIndex';
 import NewWish from './views/NewWish';
+import Modal from './components/Modal';
 
 function AppMain(props){
+    const [modalData, setModalData] = useState(null);
+    const [modalActive, setModalActive] = useState(false);
+
+    const setModal = (data) => {
+        setModalData(data);
+        setModalActive(true);
+    };
 
     function SidebarNav() {
         const location = useLocation();
@@ -69,6 +77,7 @@ function AppMain(props){
     return(
         <>
         <Toaster position="bottom-center"/>
+        <Modal apiRoot={props.apiRoot} modalData={modalData} modalActive={modalActive} setModalActive={setModalActive}/>
         <div className={`app ${props.isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
             <div className="top-bar">
                 <Link className='logo' to="/">
@@ -94,10 +103,7 @@ function AppMain(props){
             <main id='main'>
                 <Routes>
                     <Route path="/" element={
-                        <WishlistIndex apiRoot={props.apiRoot} user={props.user} />
-                    } />
-                    <Route path="/new" element={
-                        <NewWish apiRoot={props.apiRoot} user={props.user}/>
+                        <WishlistIndex apiRoot={props.apiRoot} user={props.user} setModal={setModal}  />
                     } />
                     <Route path="/people" element={<h1>People</h1>} />
                     <Route path="/activity" element={<h1>Activity</h1>} />

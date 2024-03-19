@@ -152,29 +152,36 @@ function WishlistIndex(props) {
     const [wishlistUid, setWishlistUid] = useState(props.user.primary_account);
     const [items, setItems] = useState([]);
 
-    useEffect(() => {
-        
+    const getItems = () => {
+        console.log('Getting items...');
         fetch(`${props.apiRoot}/wishlists/${wishlistUid}?token=${localStorage.getItem('token')}`, {
             method: 'GET',
         })
-        .then(response => response.json()).then(data => {
-            
-            if(data.error){
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
                 toast.error(data.error);
                 setIsLoading(false);
-            }else{
+            } else {
                 setIsLoading(false);
                 setItems(data.items);
             }
-
         })
         .catch((error) => {
             toast.error('There was an error communicating with the server.');
             setIsLoading(false);
-        }
-        );
+        });
+    };
 
+    useEffect(() => {
+        getItems();
     }, []);
+
+    const handleNewWish = (event) => {
+        event.preventDefault();
+        props.setModal({type: 'new-wish', wishlist: wishlistUid, getItems: getItems});
+    };
+
 
     const handleItemDelete = (uid) => {
         //loading toast
@@ -202,7 +209,7 @@ function WishlistIndex(props) {
             <>
             <div className='wishlist-index-header'>
                 <div className='wishlist-selector-skeleton'></div>
-                <Link to="/new" className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></Link>
+                <button className='wishlist-add-item-button' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
             </div>
             <div className='list-section'>
                 {/* <div className='section-header'>
@@ -227,7 +234,7 @@ function WishlistIndex(props) {
             <>
             <div className='wishlist-index-header'>
                 <WishlistSelector accounts={props.user.accounts} />
-                <Link to="/new" className='wishlist-add-item-button'><PlusCircleIcon/><span>New Wish</span></Link>
+                <button className='wishlist-add-item-button' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
             </div>
             <div className='list-section'>
                 {/* <div className='section-header'>
