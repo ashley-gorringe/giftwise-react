@@ -9,7 +9,7 @@ $color-text-muted-2: #999999;
 
 body{
     font-family: 'Switzer', sans-serif;
-    background-color: white;
+    background-color: #F3FAEE;
     color: $color-dark;
     //overflow: hidden;
 }
@@ -79,7 +79,8 @@ body{
     &.app-sign-in{
         display: grid;
         height: auto;
-        min-height: 100%;
+        background-color: white;
+        min-height: 100dvh;
         grid-template-columns: 1fr!important;
         grid-template-rows: auto!important;
         padding: 30px 15px!important;
