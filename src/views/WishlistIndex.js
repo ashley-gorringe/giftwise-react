@@ -230,7 +230,7 @@ function WishlistIndex(props) {
             <div className='wishlist-index-header'>
                 <WishlistSelector wishlists={wishlists} primaryWishlist={props.user.primary_account} currentWishlist={wishlistUid} handleNewList={handleNewList} handleChangeWishlist={handleChangeWishlist}  />
                 <div className='actions'>
-                    <button className='share-button' onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
+                    <button onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
                     <button className='new-button --primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
                 </div>
             </div>
