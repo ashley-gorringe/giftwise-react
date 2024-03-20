@@ -177,6 +177,10 @@ function WishlistIndex(props) {
         //event.preventDefault();
         props.setModal({type: 'new-list', setWishlistUid: setWishlistUid, handleChangeWishlist: handleChangeWishlist, setWishlists: setWishlists});
     };
+    const handleEditList = () => {
+        //event.preventDefault();
+        props.setModal({type: 'edit-list', wishlist: wishlistUid, primaryWishlist: props.user.primary_account, handleChangeWishlist: handleChangeWishlist, setWishlists: setWishlists});
+    };
 
 
     const handleItemDelete = (uid) => {
@@ -227,33 +231,34 @@ function WishlistIndex(props) {
     }else{
         return (
             <>
-            <div className='wishlist-index-header'>
-                <WishlistSelector wishlists={wishlists} primaryWishlist={props.user.primary_account} currentWishlist={wishlistUid} handleNewList={handleNewList} handleChangeWishlist={handleChangeWishlist}  />
-                <div className='actions'>
-                    <button onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
-                    <button className='new-button --primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
-                </div>
+            <div className={`wishlist-index-header ${wishlistUid !== props.user.primary_account ? '--has-edit' : ''} `}>
+            <WishlistSelector wishlists={wishlists} primaryWishlist={props.user.primary_account} currentWishlist={wishlistUid} handleNewList={handleNewList} handleChangeWishlist={handleChangeWishlist}  />
+            <div className='actions'>
+                {wishlistUid !== props.user.primary_account ? <button className='wishlist-selector-edit' onClick={handleEditList}><EllipsisHorizontalIcon/></button> : null}
+                <button onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
+                <button className='new-button --primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
+            </div>
             </div>
             <div className='list-section'>
-                {/* <div className='section-header'>
-                    <span></span>
-                    <h3>Visible to only me</h3>
-                    <span></span>
-                </div> */}
-                
-                {items.length > 0 ? (
-                    <div className='grid'>
-                        {items.map((item, index) => (
-                            <ListItem key={index} uid={item.item_uid} name={item.title} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
-                        ))}
-                    </div>
-                ) : (
-                    <div className='empty-notice'>
-                        <h3>Your wishlist is empty</h3>
-                        <p>Tap the <strong>New Wish</strong> button to get started. Jot down anything that sparks joy or piques your interest. </p>
-                        <button className='--primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
-                    </div>
-                )}
+            {/* <div className='section-header'>
+                <span></span>
+                <h3>Visible to only me</h3>
+                <span></span>
+            </div> */}
+            
+            {items.length > 0 ? (
+                <div className='grid'>
+                {items.map((item, index) => (
+                    <ListItem key={index} uid={item.item_uid} name={item.title} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
+                ))}
+                </div>
+            ) : (
+                <div className='empty-notice'>
+                <h3>Your wishlist is empty</h3>
+                <p>Tap the <strong>New Wish</strong> button to get started. Jot down anything that sparks joy or piques your interest. </p>
+                <button className='--primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
+                </div>
+            )}
             </div>
             </>
         );

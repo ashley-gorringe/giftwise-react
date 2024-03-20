@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
-import { ChevronDownIcon, ChevronUpIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, ChevronUpIcon, PlusCircleIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 
 function WishlistSelector(props) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -74,7 +74,7 @@ function WishlistSelector(props) {
         return (
             <div className={`wishlist-selector ${menuOpen ? '--open' : ''}`}>
                 <button className={`wishlist-selector-button ${currentWishlistImage ? '--has-image' : ''}`} onClick={toggleMenu}>{currentWishlistImage ? <div className='picture' style={{ backgroundImage: 'url('+currentWishlistImage+')' }}></div> : null}<span>{currentWishlistName}</span><ChevronDownIcon/></button>
-
+                
                 <div className='wishlist-selector-menu' ref={menuRef}>
                     <button className={`wishlist-selector-close ${currentWishlistImage ? '--has-image' : ''}`} onClick={toggleMenu}>{currentWishlistImage ? <div className='picture' style={{ backgroundImage: 'url('+currentWishlistImage+')' }}></div> : null}<span>{currentWishlistName}</span><ChevronUpIcon/></button>
                     <ListItem key={props.primaryWishlist} account_uid={props.primaryWishlist} text="My Wishlist" image={null} handleChangeWishlist={props.handleChangeWishlist} />

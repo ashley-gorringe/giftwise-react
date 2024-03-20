@@ -591,10 +591,11 @@ body{
     gap: 20px;
 
     .wishlist-selector{
-        display: block;
+        display: flex;
         position: relative;
         min-width: 0;
-    
+        gap: 10px;
+        align-items: center;
         .wishlist-selector-button{
             display:flex;
             position: relative;
@@ -610,6 +611,7 @@ body{
             border: none;
             border-radius: 100px;
             text-decoration: none;
+            flex-shrink: 1;
             svg{
                 display: block;
                 position: absolute;
@@ -820,6 +822,7 @@ body{
                 visibility: visible;
             }
         }
+        
     }
 
     .wishlist-selector-skeleton{
@@ -886,6 +889,31 @@ body{
                 background-color: $color-primary;
                 color: white;
             }
+        }
+
+        .wishlist-selector-edit{
+            display: block;
+            position: relative;
+            height: 46px;
+            width: 46px;
+            padding: 0;
+            background-color: #E5EDDF;
+            box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 50%;
+            svg{
+                display: block;
+                position: absolute;
+                height: auto;
+                width: 30px;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                color: #637A53;
+                stroke-width: 2px;
+            }
+            //prevent from shrinking due to flex
+            flex-shrink: 0;
         }
     }
 
@@ -985,6 +1013,7 @@ body{
                         padding-left: 56px;
                     }
                 }
+                
             }
         }
         .actions button{
@@ -999,6 +1028,12 @@ body{
                 top: 50%;
                 transform: translate(-50%, -50%);
                 height: 24px;
+            }
+        }
+        &.--has-edit{
+            .wishlist-selector-menu{
+                width:calc(100% + 178px)!important;
+                max-width: calc(100% + 178px)!important;
             }
         }
     }

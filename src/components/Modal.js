@@ -6,6 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import ModalNewWish from './ModalNewWish';
 import ModalNewList from './ModalNewList';
+import ModalEditList from './ModalEditList';
 
 function Modal(props){
     const [modalTitle, setModalTitle] = useState(null);
@@ -36,6 +37,11 @@ function Modal(props){
             setModalTitle('Create a new Wishlist'); // Correctly call setModalTitle as a function
             setModalBody(
                 <ModalNewList apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
+            );
+        }else if (modalData && modalData['type'] === 'edit-list') {
+            setModalTitle('Edit Wishlist'); // Correctly call setModalTitle as a function
+            setModalBody(
+                <ModalEditList apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
             );
         }
     }, [modalData]); // This effect depends on modalData
