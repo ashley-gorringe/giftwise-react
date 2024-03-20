@@ -2,16 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 
-// import LogoFull from './logo-full.svg';
-// import LogoIcon from './logo-icon.svg';
-// import LogoTall from './logo-tall.svg';
-// import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-// import { useLocation } from 'react-router-dom';
-// import WishlistIndex from './views/WishlistIndex';
-// import NewWish from './views/NewWish';
-
-// import SignInBox from './components/SignInBox';
-
 import AppLoading from './AppLoading';
 import AppExternal from './AppExternal';
 import AppMain from './AppMain';

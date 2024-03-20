@@ -8,7 +8,6 @@ import LogoIcon from './logo-icon.svg';
 import LogoTall from './logo-tall.svg';
 
 import WishlistIndex from './views/WishlistIndex';
-import NewWish from './views/NewWish';
 import Modal from './components/Modal';
 
 function AppMain(props){

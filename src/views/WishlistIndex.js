@@ -7,7 +7,9 @@ import Placeholder2 from '../placeholder-2.svg';
 import Placeholder3 from '../placeholder-3.svg';
 import Placeholder4 from '../placeholder-4.svg';
 
-import { UserGroupIcon, EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, PlusCircleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, PlusCircleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+
+import WishlistSelector from '../components/WishlistSelector';
 
 function ListItem(props) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -102,69 +104,48 @@ function ListItemSkeleton() {
     );
 }
 
-function WishlistSelector(props) {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const menuRef = useRef(); // Ref for the menu
-
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
-
-    const handleNewList = () => {
-        props.handleNewList();
-        setMenuOpen(false);
-    
-    }
-
-    useEffect(() => {
-        // Function to check if clicked outside
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setMenuOpen(false);
-            }
-        };
-
-        // Bind the event listener
-        document.addEventListener("mousedown", handleClickOutside);
-
-        return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [menuRef]);
-
-    function AccountItem(props) {
-        return (
-            <button className='wishlist-selector-item'><div className='picture'></div><span>{props.name_full}</span></button>
-        );
-    }
-
-    return (
-        <div className={`wishlist-selector ${menuOpen ? '--open' : ''}`}>
-            <button className='wishlist-selector-button' onClick={toggleMenu}><span>My Wishlist</span><ChevronDownIcon/></button>
-            <div className='wishlist-selector-menu' ref={menuRef}>
-                <button className='wishlist-selector-close' onClick={toggleMenu}><span>My Wishlist</span><ChevronUpIcon/></button>
-                {props.accounts.map((account, index) => (
-                    <AccountItem key={index} name_full={account.name_full} />
-                ))}
-                <button className='wishlist-selector-add' onClick={handleNewList}><PlusCircleIcon/><span>New Wishlist</span></button>
-            </div>
-        </div>
-    );
-}
-
 function WishlistIndex(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [wishlistUid, setWishlistUid] = useState(props.user.primary_account);
+    const [wishlists, setWishlists] = useState(props.user.wishlists);
     const [items, setItems] = useState([]);
+    
+    /* 
+    const getWishlists = () => {
+        fetch(`${props.apiRoot}/wishlists?token=${localStorage.getItem('token')}`, {
+            method: 'GET',
+        }).then(response => response.json()).then(data => {
+            if (data.error) {
+                toast.error(data.error);
+            } else {
+                setWishlists(data.wishlists);
+            }
+        }).catch((error) => {
+            toast.error('There was an error communicating with the server.');
+        });
+    }; */
 
     const getItems = () => {
-        console.log('Getting items...');
+        //console.log('Getting items...');
         fetch(`${props.apiRoot}/wishlists/${wishlistUid}?token=${localStorage.getItem('token')}`, {
             method: 'GET',
-        })
-        .then(response => response.json())
-        .then(data => {
+        }).then(response => response.json()).then(data => {
+            if (data.error) {
+                toast.error(data.error);
+            } else {
+                setItems(data.items);
+            }
+        }).catch((error) => {
+            toast.error('There was an error communicating with the server.');
+        });
+    };
+
+    useEffect(() => {
+        //console.log(wishlists);
+
+        fetch(`${props.apiRoot}/wishlists/${wishlistUid}?token=${localStorage.getItem('token')}`, {
+            method: 'GET',
+        }).then(response => response.json()).then(data => {
             if (data.error) {
                 toast.error(data.error);
                 setIsLoading(false);
@@ -172,16 +153,17 @@ function WishlistIndex(props) {
                 setIsLoading(false);
                 setItems(data.items);
             }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             toast.error('There was an error communicating with the server.');
             setIsLoading(false);
         });
-    };
+    }, [wishlistUid]);
 
-    useEffect(() => {
-        getItems();
-    }, []);
+    const handleChangeWishlist = (uid) => {
+        //console.log('Changing wishlist to ' + uid);
+        setIsLoading(true);
+        setWishlistUid(uid);
+    };
 
     const handleNewWish = () => {
         //event.preventDefault();
@@ -193,7 +175,7 @@ function WishlistIndex(props) {
     };
     const handleNewList = () => {
         //event.preventDefault();
-        props.setModal({type: 'new-list', setWishlistUid: setWishlistUid, getItems: getItems});
+        props.setModal({type: 'new-list', setWishlistUid: setWishlistUid, handleChangeWishlist: handleChangeWishlist, setWishlists: setWishlists});
     };
 
 
@@ -246,7 +228,7 @@ function WishlistIndex(props) {
         return (
             <>
             <div className='wishlist-index-header'>
-                <WishlistSelector accounts={props.user.accounts} handleNewList={handleNewList} />
+                <WishlistSelector wishlists={wishlists} primaryWishlist={props.user.primary_account} currentWishlist={wishlistUid} handleNewList={handleNewList} handleChangeWishlist={handleChangeWishlist}  />
                 <div className='actions'>
                     <button className='share-button' onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
                     <button className='new-button --primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
@@ -258,11 +240,20 @@ function WishlistIndex(props) {
                     <h3>Visible to only me</h3>
                     <span></span>
                 </div> */}
-                <div className='grid'>
-                    {items.map((item, index) => (
-                        <ListItem key={index} uid={item.item_uid} name={item.title} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
-                    ))}
-                </div>
+                
+                {items.length > 0 ? (
+                    <div className='grid'>
+                        {items.map((item, index) => (
+                            <ListItem key={index} uid={item.item_uid} name={item.title} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
+                        ))}
+                    </div>
+                ) : (
+                    <div className='empty-notice'>
+                        <h3>Your wishlist is empty</h3>
+                        <p>Tap the <strong>New Wish</strong> button to get started. Jot down anything that sparks joy or piques your interest. </p>
+                        <button className='--primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
+                    </div>
+                )}
             </div>
             </>
         );

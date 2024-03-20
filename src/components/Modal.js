@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import ModalNewWish from './ModalNewWish';
+import ModalNewList from './ModalNewList';
 
 function Modal(props){
     const [modalTitle, setModalTitle] = useState(null);
@@ -34,9 +35,7 @@ function Modal(props){
         }else if (modalData && modalData['type'] === 'new-list') {
             setModalTitle('Create a new Wishlist'); // Correctly call setModalTitle as a function
             setModalBody(
-                <div className='modal-body'>
-                    <p>Coming soon...</p>
-                </div>
+                <ModalNewList apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
             );
         }
     }, [modalData]); // This effect depends on modalData
