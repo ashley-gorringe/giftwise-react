@@ -76,7 +76,7 @@ function AppMain(props){
 
     return(
         <>
-        <Toaster position="bottom-center"/>
+        <Toaster position="top-center"/>
         <Modal isPwaOnIOS={props.isPwaOnIOS} apiRoot={props.apiRoot} modalData={modalData} modalActive={modalActive} setModalActive={setModalActive}/>
         <div className={`app ${props.isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
             <div className="top-bar">

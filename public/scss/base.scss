@@ -7,6 +7,9 @@ $color-text-muted-2: #999999;
 @import 'normalise';
 @import 'reboot';
 
+html{
+    background-color: #F3FAEE;
+}
 body{
     font-family: 'Switzer', sans-serif;
     background-color: #F3FAEE;
@@ -853,7 +856,7 @@ body{
     }
 
     @container (max-width: 900px) {
-        .actions button{
+        .actions .share-button{
             width: 60px;
             padding:0;
             span{
@@ -930,10 +933,19 @@ body{
                 }
             }
         }
-
         .actions button{
-            height: 46px;
-            width: 46px;
+            height: 46px!important;
+            width: 46px!important;
+            padding:0;
+            span{
+                display: none;
+            }
+            svg{
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                height: 24px;
+            }
         }
     }
 }

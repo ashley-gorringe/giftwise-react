@@ -110,6 +110,12 @@ function WishlistSelector(props) {
         setMenuOpen(!menuOpen);
     };
 
+    const handleNewList = () => {
+        props.handleNewList();
+        setMenuOpen(false);
+    
+    }
+
     useEffect(() => {
         // Function to check if clicked outside
         const handleClickOutside = (event) => {
@@ -141,7 +147,7 @@ function WishlistSelector(props) {
                 {props.accounts.map((account, index) => (
                     <AccountItem key={index} name_full={account.name_full} />
                 ))}
-                <button className='wishlist-selector-add'><PlusCircleIcon/><span>New Wishlist</span></button>
+                <button className='wishlist-selector-add' onClick={handleNewList}><PlusCircleIcon/><span>New Wishlist</span></button>
             </div>
         </div>
     );
@@ -177,13 +183,17 @@ function WishlistIndex(props) {
         getItems();
     }, []);
 
-    const handleNewWish = (event) => {
-        event.preventDefault();
+    const handleNewWish = () => {
+        //event.preventDefault();
         props.setModal({type: 'new-wish', wishlist: wishlistUid, getItems: getItems});
     };
-    const handleShareList = (event) => {
-        event.preventDefault();
+    const handleShareList = () => {
+        //event.preventDefault();
         props.setModal({type: 'share-list', wishlist: wishlistUid});
+    };
+    const handleNewList = () => {
+        //event.preventDefault();
+        props.setModal({type: 'new-list', setWishlistUid: setWishlistUid, getItems: getItems});
     };
 
 
@@ -236,10 +246,10 @@ function WishlistIndex(props) {
         return (
             <>
             <div className='wishlist-index-header'>
-                <WishlistSelector accounts={props.user.accounts} />
+                <WishlistSelector accounts={props.user.accounts} handleNewList={handleNewList} />
                 <div className='actions'>
-                    <button onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
-                    <button className='--primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
+                    <button className='share-button' onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
+                    <button className='new-button --primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
                 </div>
             </div>
             <div className='list-section'>

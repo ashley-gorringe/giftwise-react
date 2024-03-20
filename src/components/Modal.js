@@ -31,6 +31,13 @@ function Modal(props){
                     <p>Coming soon...</p>
                 </div>
             );
+        }else if (modalData && modalData['type'] === 'new-list') {
+            setModalTitle('Create a new Wishlist'); // Correctly call setModalTitle as a function
+            setModalBody(
+                <div className='modal-body'>
+                    <p>Coming soon...</p>
+                </div>
+            );
         }
     }, [modalData]); // This effect depends on modalData
     
