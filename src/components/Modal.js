@@ -34,7 +34,7 @@ function Modal(props){
                 </div>
             );
         }else if (modalData && modalData['type'] === 'new-list') {
-            setModalTitle('Create a new Wishlist'); // Correctly call setModalTitle as a function
+            setModalTitle('Create a New Wishlist'); // Correctly call setModalTitle as a function
             setModalBody(
                 <ModalNewList apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
             );

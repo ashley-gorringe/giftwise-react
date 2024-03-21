@@ -107,6 +107,7 @@ function ListItemSkeleton() {
 function WishlistIndex(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [wishlistUid, setWishlistUid] = useState(props.user.primary_account);
+    const [wishlistPrivate, setWishlistPrivate] = useState(false); // Default to private
     const [wishlists, setWishlists] = useState(props.user.wishlists);
     const [items, setItems] = useState([]);
     
@@ -159,10 +160,11 @@ function WishlistIndex(props) {
         });
     }, [wishlistUid]);
 
-    const handleChangeWishlist = (uid) => {
+    const handleChangeWishlist = (uid, isPrivate) => {
         //console.log('Changing wishlist to ' + uid);
         setIsLoading(true);
         setWishlistUid(uid);
+        setWishlistPrivate(isPrivate);
     };
 
     const handleNewWish = () => {
@@ -229,13 +231,20 @@ function WishlistIndex(props) {
             </>
         );
     }else{
+        let buttonCount = 0;
+        if (wishlistUid !== props.user.primary_account) {
+            buttonCount += 1;
+        }
+        if (!wishlistPrivate) {
+            buttonCount += 1;
+        }
         return (
             <>
-            <div className={`wishlist-index-header ${wishlistUid !== props.user.primary_account ? '--has-edit' : ''} `}>
+            <div className={`wishlist-index-header --has-${buttonCount} `}>
             <WishlistSelector wishlists={wishlists} primaryWishlist={props.user.primary_account} currentWishlist={wishlistUid} handleNewList={handleNewList} handleChangeWishlist={handleChangeWishlist}  />
             <div className='actions'>
                 {wishlistUid !== props.user.primary_account ? <button className='wishlist-selector-edit' onClick={handleEditList}><EllipsisHorizontalIcon/></button> : null}
-                <button onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>
+                {wishlistPrivate ? null : <button onClick={handleShareList}><UserPlusIcon/><span>Share</span></button>}
                 <button className='new-button --primary' onClick={handleNewWish}><PlusCircleIcon/><span>New Wish</span></button>
             </div>
             </div>

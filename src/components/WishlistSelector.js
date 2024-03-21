@@ -34,15 +34,15 @@ function WishlistSelector(props) {
     };
 
     function ListItem(props) {
-        const handleChangeWishlist = (account_uid) => {
+        const handleChangeWishlist = (account_uid, is_private) => {
             return () => {
-                props.handleChangeWishlist(account_uid);
+                props.handleChangeWishlist(account_uid, is_private);
                 setMenuOpen(false);
             }
         }
 
         return (
-            <button className={`wishlist-selector-item ${props.image ? '--has-image' : ''}`} onClick={handleChangeWishlist(props.account_uid)}>
+            <button className={`wishlist-selector-item ${props.image ? '--has-image' : ''}`} onClick={handleChangeWishlist(props.account_uid, props.is_private)}>
                 {props.image ? <div className='picture' style={{ backgroundImage: 'url('+props.image+')' }}></div> : null}
                 <span>{props.text}</span>
             </button>
@@ -50,7 +50,7 @@ function WishlistSelector(props) {
     }
 
     // Find the current wishlist's name using the account_uid
-    const currentWishlistName = props.wishlists.find(wishlist => wishlist.account_uid === props.currentWishlist)?.name_full;
+    const currentWishlistName = props.wishlists.find(wishlist => wishlist.account_uid === props.currentWishlist)?.account_name;
     // Find the current wishlist's image using the account_uid
     const currentWishlistImage = props.wishlists.find(wishlist => wishlist.account_uid === props.currentWishlist)?.image_uid;
 
@@ -64,7 +64,7 @@ function WishlistSelector(props) {
                 <div className='wishlist-selector-menu' ref={menuRef}>
                     <button className='wishlist-selector-close' onClick={toggleMenu}><span>My Wishlist</span><ChevronUpIcon/></button>
                     {filteredWishlists.map((wishlist) => (
-                        <ListItem key={wishlist.account_uid} account_uid={wishlist.account_uid} text={wishlist.name_full} image={wishlist.image_uid} handleChangeWishlist={props.handleChangeWishlist} />
+                        <ListItem key={wishlist.account_uid} account_uid={wishlist.account_uid} is_private={wishlist.is_private} text={wishlist.account_name} image={wishlist.image_uid} handleChangeWishlist={props.handleChangeWishlist} />
                     ))}
                     <button className='wishlist-selector-add' onClick={handleNewList}><PlusCircleIcon/><span>New Wishlist</span></button>
                 </div>
@@ -77,9 +77,9 @@ function WishlistSelector(props) {
                 
                 <div className='wishlist-selector-menu' ref={menuRef}>
                     <button className={`wishlist-selector-close ${currentWishlistImage ? '--has-image' : ''}`} onClick={toggleMenu}>{currentWishlistImage ? <div className='picture' style={{ backgroundImage: 'url('+currentWishlistImage+')' }}></div> : null}<span>{currentWishlistName}</span><ChevronUpIcon/></button>
-                    <ListItem key={props.primaryWishlist} account_uid={props.primaryWishlist} text="My Wishlist" image={null} handleChangeWishlist={props.handleChangeWishlist} />
+                    <ListItem key={props.primaryWishlist} account_uid={props.primaryWishlist} is_private={false} text="My Wishlist" image={null} handleChangeWishlist={props.handleChangeWishlist} />
                     {filteredWishlists.map((wishlist) => (
-                        <ListItem key={wishlist.account_uid} account_uid={wishlist.account_uid} text={wishlist.name_full} image={wishlist.image_uid} handleChangeWishlist={props.handleChangeWishlist} />
+                        <ListItem key={wishlist.account_uid} account_uid={wishlist.account_uid} is_private={wishlist.is_private} text={wishlist.account_name} image={wishlist.image_uid} handleChangeWishlist={props.handleChangeWishlist} />
                     ))}
                     <button className='wishlist-selector-add' onClick={handleNewList}><PlusCircleIcon/><span>New Wishlist</span></button>
                 </div>

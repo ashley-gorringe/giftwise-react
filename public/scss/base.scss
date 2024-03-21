@@ -472,6 +472,43 @@ body{
     }
 }
 
+.radio-group{
+    display: flex;
+    position: relative;
+    width: auto;
+    height: auto;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white;
+            border: 1px solid rgba(0,0,0,0.1);
+    button{
+        display: flex;
+        position: relative;
+        width: auto;
+        height: 50px;
+        padding: 0 15px;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 500;
+        color: $color-dark;
+        flex-grow: 1;
+        &:hover{
+            cursor: pointer;
+            background-color: #ededed;
+        }
+        &.--selected{
+            background-color: #FEF2F2;
+            color: $color-primary;
+        }
+    }
+
+}
+
 .button{
     display: inline-flex;
     position: relative;
@@ -933,6 +970,14 @@ body{
     }
     @container (max-width: 760px) {
         gap: 10px;
+        .wishlist-selector-skeleton{
+            height: 46px;
+            &:after{
+                top: calc(50% - 8px);
+                height: 16px;
+                left: 20px;
+            }
+        }
         .wishlist-selector{
             width:100%;
             .wishlist-selector-button{
@@ -959,8 +1004,8 @@ body{
             }
 
             .wishlist-selector-menu{
-                width:calc(100% + 122px);
-                max-width: calc(100% + 122px);
+                width:calc(100% + 66px);
+                max-width: calc(100% + 66px);
                 border-radius: 28px;
                 gap: 10px;
                 .wishlist-selector-close{
@@ -1030,7 +1075,13 @@ body{
                 height: 24px;
             }
         }
-        &.--has-edit{
+        &.--has-1{
+            .wishlist-selector-menu{
+                width:calc(100% + 122px)!important;
+                max-width: calc(100% + 122px)!important;
+            }
+        }
+        &.--has-2{
             .wishlist-selector-menu{
                 width:calc(100% + 178px)!important;
                 max-width: calc(100% + 178px)!important;
