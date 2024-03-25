@@ -11,10 +11,9 @@ function ModalNewWish(props){
     const fileTypes = ["JPEG", "JPG", "PNG"];
 
     const handleSuccess = (e) => {
+        document.getElementById('new-wish-form').reset();
         props.handleClose();
         props.modalData['getItems']();
-        //reset the form
-        document.getElementById('new-wish-form').reset();
     };
 
     const handleSubmit = (e) => {
