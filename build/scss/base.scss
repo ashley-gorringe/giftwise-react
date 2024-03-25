@@ -34,6 +34,7 @@ body{
         width: 100%;
         height: 100%;
         padding: 50px 50px;
+        padding-bottom: calc(50px + env(safe-area-inset-bottom));
         padding-left: 400px;
         container-type: inline-size;
         h1{
@@ -60,6 +61,7 @@ body{
         }
         main{
             padding:90px 15px;
+            padding-bottom: calc(90px + env(safe-area-inset-bottom));
         }
         .mobile-nav{
             display: flex;
