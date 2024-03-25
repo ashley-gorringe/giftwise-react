@@ -32,6 +32,7 @@
     height: 60px;
     width: 100%;
     padding: 0 15px;
+    padding-bottom: env(safe-area-inset-bottom);
     align-items: start;
     justify-content: space-between;
     z-index: 100;
