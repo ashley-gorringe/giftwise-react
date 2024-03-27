@@ -114,6 +114,7 @@ function AppMain(props){
                     <Route path="/people" element={
                         <PeopleIndex apiRoot={props.apiRoot} user={props.user} setModal={setModal}  />
                     } />
+                    <Route path="/people/:id" element={<h1>Coming Soon</h1>} />
                     <Route path="/activity" element={<h1>Activity</h1>} />
                     <Route path="/account" element={
                         <>

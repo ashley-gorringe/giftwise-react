@@ -4,6 +4,7 @@
     grid-template-columns: repeat(6,1fr);
     gap: 30px;
     z-index: 1;
+    width: 100%;
 
     @container (max-width: 1500px) {
         grid-template-columns: repeat(5,1fr);
