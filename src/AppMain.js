@@ -4,6 +4,7 @@ import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 
 import { HomeIcon, QueueListIcon, UserGroupIcon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import LogoFull from './logo-full.svg';
+import LogoFullGreen from './logo-full-green.svg';
 import LogoIcon from './logo-icon.svg';
 import LogoTall from './logo-tall.svg';
 
@@ -85,7 +86,7 @@ function AppMain(props){
         <div className={`app ${props.isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
             <div className="top-bar">
                 <Link className='logo' to="/">
-                    <img src={LogoIcon} alt="Logo" />
+                    <img src={LogoFullGreen} alt="Logo" />
                 </Link>
             </div>
             <div className="sidebar">
