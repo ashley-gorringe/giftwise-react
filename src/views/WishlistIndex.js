@@ -214,13 +214,7 @@ function WishlistIndex(props) {
                 <div className='wishlist-selector-skeleton'></div>
             </div>
             <div className='list-section'>
-                {/* <div className='section-header'>
-                    <span></span>
-                    <h3>Just a sec...</h3>
-                    <span></span>
-                </div> */}
                 <div className='grid'>
-                    
                     <ListItemSkeleton/>
                     <ListItemSkeleton/>
                     <ListItemSkeleton/>
@@ -250,12 +244,6 @@ function WishlistIndex(props) {
             </div>
             </div>
             <div className='list-section'>
-            {/* <div className='section-header'>
-                <span></span>
-                <h3>Visible to only me</h3>
-                <span></span>
-            </div> */}
-            
             {items.length > 0 ? (
                 <div className='grid'>
                 {items.map((item, index) => (

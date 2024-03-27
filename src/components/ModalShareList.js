@@ -6,13 +6,16 @@ import { UserCircleIcon } from '@heroicons/react/24/outline';
 function ModalShareList(props){
     const [isLoading, setIsLoading] = useState(true);
     const [shareCode, setShareCode] = useState(null);
+    const [people, setPeople] = useState([]);
 
     useEffect(() => {
         //fetch the people that the list is shared with
         fetch(`${props.apiRoot}/wishlist_share/${props.modalData['wishlist']}?token=${localStorage.getItem('token')}`)
         .then(response => response.json()).then(data => {
             setShareCode(data.share_code);
+            setPeople(data.link_accounts);
             setIsLoading(false);
+            console.log(data.link_accounts);
         })
         .catch((error) => {
             toast.error('There was an error communicating with the server.');
@@ -20,7 +23,34 @@ function ModalShareList(props){
         });
     }, [props.modalData]);
 
-    function PeopleList(){
+    const handleDelete = (uid) => {
+        console.log('delete');
+        const toastId = toast.loading('Removing person...');
+        fetch(`${props.apiRoot}/wishlist_share/${uid}?token=${localStorage.getItem('token')}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json()).then(data => {
+            if(data.error){
+                toast.error(data.error);
+            }else{
+                toast.success('Person removed.');
+                toast.dismiss(toastId);
+    
+                // Remove the person from the list by filtering and then setting the people state with a new array
+                setPeople(prevPeople => {
+                    const newPeople = prevPeople.filter(person => person.account_link_uid !== uid);
+                    return [...newPeople]; // Spread into a new array to ensure React detects a change
+                });
+            }
+        })
+        .catch((error) => {
+            toast.error('There was an error communicating with the server.');
+        });
+    }
+    
+
+
+    function PeopleList(props){
         if(isLoading){
             return(
                 <div className='share-people'>
@@ -36,21 +66,37 @@ function ModalShareList(props){
                 </div>
             );
         }else{
-            return(
-                <div className='share-people'>
-                    <p className='helper-text'>This Wishlist is currently being shared with the following people:</p>
-                    <div className='person'>
-                        <div className='picture' style={{ backgroundImage: 'url(https://r2.giftwise.app/be86c44e7386d6d6fd32627283c087cb5ab4_100.jpg)' }}></div>
-                        <div className='name'>John Doe</div>
-                        <button className='button'>Remove</button>
+            //if there are no people, show a message
+            if(props.people.length === 0){
+                return(
+                    <div className='share-people'>
+                        <p className='helper-text'>This Wishlist is not currently being shared with anyone.</p>
                     </div>
-                    <div className='person'>
-                        <div className='picture-icon'><UserCircleIcon/></div>
-                        <div className='name'>John Doe</div>
-                        <button className='button'>Remove</button>
+                );
+            }else{
+                return(
+                    <div className='share-people'>
+                        <p className='helper-text'>This Wishlist is currently being shared with the following people:</p>
+                        {props.people.map((person, index) => {
+                            
+                            let picture;
+                            if(person.image_uid === null){
+                                picture = <div className='picture-icon'><UserCircleIcon/></div>;
+                            }else{
+                                picture = <div className='picture' style={{ backgroundImage: `url(${person.image_url})` }}></div>;
+                            }
+
+                            return(
+                                <div className='person' key={index}>
+                                    {picture}
+                                    <div className='name'>{person.account_name}</div>
+                                    <button className='button' onClick={() => handleDelete(person.account_link_uid)}>Remove</button>
+                                </div>
+                            );
+                        })}
                     </div>
-                </div>
-            );
+                );
+            }
         }
     };
 
@@ -65,7 +111,7 @@ function ModalShareList(props){
                 <div className='error-text'></div>
                 <div className='helper-text'>Share this code with another person to let them see your Wishlist.</div>
             </div>
-            <PeopleList/>
+            <PeopleList people={people} handleDelete={handleDelete}/>
         </div>
     );
 }
