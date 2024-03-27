@@ -1389,3 +1389,93 @@ body{
         }
     }
 }
+
+.people-index-header{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+    h1{
+        margin: 0;
+        padding: 0;
+    }
+    .actions{
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        button{
+            display:flex;
+            position: relative;
+            height: 60px;
+            width: auto;
+            padding: 0 30px;
+            padding-left: 70px;
+            align-items: center;
+            background-color: #E5EDDF;
+            color: #637A53;
+            box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 100px;
+            text-decoration: none;
+            svg{
+                display: block;
+                position: absolute;
+                height: auto;
+                height: 30px;
+                left: 30px;
+                color: inherit;
+                stroke-width: 2px;
+            }
+            span{
+                display: block;
+                position: relative;
+                font-size: 24px;
+                line-height: 1em;
+                font-weight: 700;
+                color: inherit;
+                font-family: 'Sentient', serif;
+            }
+
+            &.--primary{
+                background-color: $color-primary;
+                color: white;
+            }
+        }
+    }
+
+    @container (max-width: 900px) {
+        .actions .share-button{
+            width: 60px;
+            padding:0;
+            span{
+                display: none;
+            }
+            svg{
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+    @container (max-width: 760px) {
+        gap: 10px;
+        .actions button{
+            height: 46px!important;
+            width: 46px!important;
+            padding:0;
+            span{
+                display: none;
+            }
+            svg{
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                height: 24px;
+            }
+        }
+    }
+}

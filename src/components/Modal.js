@@ -9,6 +9,8 @@ import ModalNewList from './ModalNewList';
 import ModalEditList from './ModalEditList';
 import ModalShareList from './ModalShareList';
 
+import ModalNewPerson from './ModalNewPerson';
+
 function Modal(props){
     const [modalTitle, setModalTitle] = useState(null);
     const [modalData, setModalData] = useState(null);
@@ -41,6 +43,11 @@ function Modal(props){
             setModalTitle('Edit Wishlist'); // Correctly call setModalTitle as a function
             setModalBody(
                 <ModalEditList apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
+            );
+        }else if (modalData && modalData['type'] === 'new-person') {
+            setModalTitle('Add a Person'); // Correctly call setModalTitle as a function
+            setModalBody(
+                <ModalNewPerson apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
             );
         }
     }, [modalData]); // This effect depends on modalData

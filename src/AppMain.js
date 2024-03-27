@@ -9,6 +9,7 @@ import LogoIcon from './logo-icon.svg';
 import LogoTall from './logo-tall.svg';
 
 import WishlistIndex from './views/WishlistIndex';
+import PeopleIndex from './views/PeopleIndex';
 import Modal from './components/Modal';
 
 function AppMain(props){
@@ -110,7 +111,9 @@ function AppMain(props){
                     <Route path="/" element={
                         <WishlistIndex apiRoot={props.apiRoot} user={props.user} setModal={setModal}  />
                     } />
-                    <Route path="/people" element={<h1>People</h1>} />
+                    <Route path="/people" element={
+                        <PeopleIndex apiRoot={props.apiRoot} user={props.user} setModal={setModal}  />
+                    } />
                     <Route path="/activity" element={<h1>Activity</h1>} />
                     <Route path="/account" element={
                         <>
