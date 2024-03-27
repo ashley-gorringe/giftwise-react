@@ -84,7 +84,7 @@ body{
     &.app-sign-in{
         display: grid;
         height: auto;
-        background-color: white;
+        background-color: #F3FAEE;
         min-height: 100dvh;
         grid-template-columns: 1fr!important;
         grid-template-rows: auto!important;
@@ -114,7 +114,7 @@ body{
         display: block;
         position: relative;
         width: auto;
-        height: 100px;
+        height: 50px;
     }
     .footer{
         display: flex;
@@ -156,7 +156,7 @@ body{
         padding: 50px 30px;
         background-color: white;
         border-radius: 20px;
-        box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1);
+        box-shadow: inset 0px 0px 0px 1px rgba(0,0,0,0.1), 0px 10px 20px 0px rgba(0,0,0,0.05);
         background-image: url(/log-in-bg.png);
         background-size: 100%;
         background-position: top;
@@ -196,7 +196,7 @@ body{
     @media (max-width: 550px){
         gap: 30px;
         .logo{
-            height: 80px;
+            height: 40px;
         }
         .box{
             padding: 40px 20px;
