@@ -19,6 +19,11 @@ function AppMain(props){
         setModalActive(true);
     };
 
+    const closeModal = () => {
+        setModalActive(false);
+        setModalData(null);
+    };
+
     function SidebarNav() {
         const location = useLocation();
 
@@ -76,7 +81,7 @@ function AppMain(props){
     return(
         <>
         <Toaster position="top-center"/>
-        <Modal isPwaOnIOS={props.isPwaOnIOS} apiRoot={props.apiRoot} modalData={modalData} modalActive={modalActive} setModalActive={setModalActive}/>
+        <Modal isPwaOnIOS={props.isPwaOnIOS} apiRoot={props.apiRoot} modalData={modalData} modalActive={modalActive} setModalActive={setModalActive} closeModal={closeModal}/>
         <div className={`app ${props.isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
             <div className="top-bar">
                 <Link className='logo' to="/">

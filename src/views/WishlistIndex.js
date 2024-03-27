@@ -7,7 +7,7 @@ import Placeholder2 from '../placeholder-2.svg';
 import Placeholder3 from '../placeholder-3.svg';
 import Placeholder4 from '../placeholder-4.svg';
 
-import { EllipsisHorizontalIcon, PencilSquareIcon, EyeIcon, EyeSlashIcon, TrashIcon, PlusCircleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { EllipsisHorizontalIcon, PencilSquareIcon, ArrowTopRightOnSquareIcon, TrashIcon, PlusCircleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 
 import WishlistSelector from '../components/WishlistSelector';
 
@@ -83,8 +83,9 @@ function ListItem(props) {
             </a>
             <div ref={menuRef} className='list-item-menu'>
                 <a href="#" onClick={handleEdit}><PencilSquareIcon/><span>Edit</span></a>
-                <a href="#" onClick={handlePrivacy}><EyeSlashIcon/><span>Private</span></a>
-                <a href="#" onClick={handlePrivacy}><EyeIcon/><span>Public</span></a>
+                {props.url && (
+                    <a href={props.url} target='_blank'><ArrowTopRightOnSquareIcon/><span>Go to Link</span></a>
+                )}
                 <div className='divider'></div>
                 <a className='--danger' href="#" onClick={handleDelete}><TrashIcon/><span>Delete</span></a>
             </div>
@@ -258,7 +259,7 @@ function WishlistIndex(props) {
             {items.length > 0 ? (
                 <div className='grid'>
                 {items.map((item, index) => (
-                    <ListItem key={index} uid={item.item_uid} name={item.title} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
+                    <ListItem key={index} uid={item.item_uid} name={item.title} url={item.url} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
                 ))}
                 </div>
             ) : (

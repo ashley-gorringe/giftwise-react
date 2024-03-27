@@ -7,6 +7,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import ModalNewWish from './ModalNewWish';
 import ModalNewList from './ModalNewList';
 import ModalEditList from './ModalEditList';
+import ModalShareList from './ModalShareList';
 
 function Modal(props){
     const [modalTitle, setModalTitle] = useState(null);
@@ -14,7 +15,7 @@ function Modal(props){
     const [modalBody, setModalBody] = useState(null);
 
     const handleClose = () => {
-        props.setModalActive(false);
+        props.closeModal();
     }
     useEffect(() => {
         // Update modalData state with the new props.modalData
@@ -27,11 +28,9 @@ function Modal(props){
             setModalTitle('Add a new wish'); // Correctly call setModalTitle as a function
             setModalBody(<ModalNewWish apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData} />); // Correctly call setModalBody as a function
         }else if (modalData && modalData['type'] === 'share-list') {
-            setModalTitle('Share this List'); // Correctly call setModalTitle as a function
+            setModalTitle('Share this Wishlist'); // Correctly call setModalTitle as a function
             setModalBody(
-                <div className='modal-body'>
-                    <p>Coming soon...</p>
-                </div>
+                <ModalShareList apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
             );
         }else if (modalData && modalData['type'] === 'new-list') {
             setModalTitle('Create a New Wishlist'); // Correctly call setModalTitle as a function
