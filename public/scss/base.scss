@@ -60,8 +60,7 @@ body{
             display: flex;
         }
         main{
-            padding:90px 15px;
-            padding-top: calc(15px + env(safe-area-inset-top));
+            padding:0 15px;
             padding-bottom: calc(90px + env(safe-area-inset-bottom));
         }
         .mobile-nav{
