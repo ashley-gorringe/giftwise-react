@@ -117,10 +117,10 @@ function PeopleIndex(props) {
         return (
             <>
             <div className={`people-index-header`}>
-            <h1>People</h1>
-            <div className='actions'>
-                <button className='new-button'><UserPlusIcon/><span>Add a Person</span></button>
-            </div>
+                <h1>People</h1>
+                <div className='actions'>
+                    <button className='new-button'><UserPlusIcon/><span>Add a Person</span></button>
+                </div>
             </div>
             <div className='list-section'>
                 <div className='grid'>
@@ -138,10 +138,10 @@ function PeopleIndex(props) {
         return (
             <>
             <div className={`people-index-header`}>
-            <h1>People</h1>
-            <div className='actions'>
-                <button className='new-button' onClick={handleNewPerson}><UserPlusIcon/><span>Add a Person</span></button>
-            </div>
+                <h1>People</h1>
+                <div className='actions'>
+                    <button className='new-button' onClick={handleNewPerson}><UserPlusIcon/><span>Add a Person</span></button>
+                </div>
             </div>
             <div className='list-section'>
                 {people.length > 0 ? (

@@ -10,6 +10,7 @@ import LogoTall from './logo-tall.svg';
 
 import WishlistIndex from './views/WishlistIndex';
 import PeopleIndex from './views/PeopleIndex';
+import PeopleSingle from './views/PeopleSingle';
 import Modal from './components/Modal';
 
 function AppMain(props){
@@ -114,7 +115,9 @@ function AppMain(props){
                     <Route path="/people" element={
                         <PeopleIndex apiRoot={props.apiRoot} user={props.user} setModal={setModal}  />
                     } />
-                    <Route path="/people/:id" element={<h1>Coming Soon</h1>} />
+                    <Route path="/people/:uid" element={
+                        <PeopleSingle apiRoot={props.apiRoot} user={props.user} setModal={setModal}  />
+                    } />
                     <Route path="/activity" element={<h1>Activity</h1>} />
                     <Route path="/account" element={
                         <>
