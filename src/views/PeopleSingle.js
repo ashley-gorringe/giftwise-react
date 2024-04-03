@@ -169,9 +169,8 @@ function PeopleSingle(props) {
                 </div>
             ) : (
                 <div className='empty-notice'>
-                <h3>Your wishlist is empty</h3>
-                <p>Tap the <strong>New Wish</strong> button to get started. Jot down anything that sparks joy or piques your interest. </p>
-                <button className='--primary'><PlusCircleIcon/><span>New Wish</span></button>
+                <h3>This wishlist is empty</h3>
+                <p>Check back soon to see if {wishlistName} has added any items to their list.</p>
                 </div>
             )}
             </div>

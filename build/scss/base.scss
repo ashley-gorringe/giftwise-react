@@ -1141,6 +1141,28 @@ body{
                 
             }
         }
+        .wishlist-person-title{
+            .picture-icon{
+                height: 46px;
+                width: 46px;
+                svg{
+                    height: 28px;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+            .picture{
+                height: 46px;
+                width: 46px;
+            }
+            h1{
+                font-size: 28px;
+            }
+            .title-skeleton{
+                height: 28px;
+            }
+        }
         .actions button{
             height: 46px!important;
             width: 46px!important;
