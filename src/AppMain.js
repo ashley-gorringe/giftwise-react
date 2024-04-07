@@ -23,8 +23,13 @@ function AppMain(props){
     };
 
     const closeModal = () => {
-        setModalActive(false);
-        setModalData(null);
+        document.querySelector('.modal-wrapper').classList.remove('--active');
+        document.querySelector('.modal-overlay').classList.remove('--active');
+
+        setTimeout(() => {
+            setModalActive(false);
+            setModalData(null);
+        }, 200);
     };
 
     function SidebarNav() {
@@ -84,7 +89,9 @@ function AppMain(props){
     return(
         <>
         <Toaster position="top-center"/>
-        <Modal isPwaOnIOS={props.isPwaOnIOS} apiRoot={props.apiRoot} modalData={modalData} modalActive={modalActive} setModalActive={setModalActive} closeModal={closeModal}/>
+        {modalActive && (
+            <Modal isPwaOnIOS={props.isPwaOnIOS} apiRoot={props.apiRoot} modalData={modalData} modalActive={modalActive} setModalActive={setModalActive} closeModal={closeModal}/>
+        )}
         <div className={`app ${props.isPwaOnIOS ? '--pwa' : '--no-pwa'}`}>
             <div className="top-bar">
                 <Link className='logo' to="/">
