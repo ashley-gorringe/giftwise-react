@@ -87,13 +87,13 @@ function ListItem(props) {
     return (
         <div className={`item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
             <button className='item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
-            <a href="#" className='list-item' onClick={handleViewItem}>
+            <div className='list-item' onClick={handleViewItem}>
                 <div className='image' style={{ backgroundImage: 'url('+thumbnailSrc+')' }}></div>
                 <div className='body'>
                     <h4>{props.name}</h4>
                     <span className='price'>{price}</span>
                 </div>
-            </a>
+            </div>
             <div ref={menuRef} className='item-menu'>
                 <a href="#" onClick={handleEdit}><PencilSquareIcon/><span>Edit</span></a>
                 {props.url && (
