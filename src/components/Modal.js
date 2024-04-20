@@ -8,7 +8,7 @@ import ModalNewWish from './ModalNewWish';
 import ModalNewList from './ModalNewList';
 import ModalEditList from './ModalEditList';
 import ModalShareList from './ModalShareList';
-
+import ModalViewItem from './ModalViewItem';
 import ModalNewPerson from './ModalNewPerson';
 
 function Modal(props){
@@ -48,7 +48,13 @@ function Modal(props){
             setModalBody(
                 <ModalNewPerson apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
             );
+        }else if (modalData && modalData['type'] === 'view-item') {
+            setModalTitle(modalData['item']['name']); // Correctly call setModalTitle as a function
+            setModalBody(
+                <ModalViewItem apiRoot={props.apiRoot} handleClose={handleClose} modalData={modalData}/>
+            );
         }
+
 
         //after a tiny delay, add the --active class to the modal
         setTimeout(() => {

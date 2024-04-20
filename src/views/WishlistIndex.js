@@ -71,10 +71,23 @@ function ListItem(props) {
         setMenuOpen(false); // Dismiss the menu
     };
 
+    const handleViewItem = (event) => {
+        event.preventDefault();
+
+        let item = {
+            name: props.name,
+            url: props.url,
+            price: price,
+            image: thumbnailSrc
+        };
+
+        props.handleViewItem(item);
+    }
+
     return (
         <div className={`item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
             <button className='item-menu-button' onClick={toggleMenu}><EllipsisHorizontalIcon/></button>
-            <a href="#" className='list-item'>
+            <a href="#" className='list-item' onClick={handleViewItem}>
                 <div className='image' style={{ backgroundImage: 'url('+thumbnailSrc+')' }}></div>
                 <div className='body'>
                     <h4>{props.name}</h4>
@@ -184,6 +197,10 @@ function WishlistIndex(props) {
         //event.preventDefault();
         props.setModal({type: 'edit-list', wishlist: wishlistUid, primaryWishlist: props.user.primary_account, handleChangeWishlist: handleChangeWishlist, setWishlists: setWishlists});
     };
+    const handleViewItem = (item) => {
+        //event.preventDefault();
+        props.setModal({type: 'view-item', item: item});
+    };
 
 
     const handleItemDelete = (uid) => {
@@ -247,7 +264,7 @@ function WishlistIndex(props) {
             {items.length > 0 ? (
                 <div className='grid'>
                 {items.map((item, index) => (
-                    <ListItem key={index} uid={item.item_uid} name={item.title} url={item.url} price={item.value} images={item.images} handleDelete={handleItemDelete}  />
+                    <ListItem key={index} uid={item.item_uid} name={item.title} url={item.url} price={item.value} images={item.images} handleDelete={handleItemDelete} handleViewItem={handleViewItem}  />
                 ))}
                 </div>
             ) : (
