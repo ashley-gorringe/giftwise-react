@@ -66,7 +66,7 @@ function ManualForm(props){
         useEffect(() => {
             // This effect runs only when props.product['image'] changes
             if(props.product) {
-                setLinkedImage(props.product['image']);
+                setLinkedImage(props.product['image_url']);
             }
         }, [props.product]); // Dependency array to only re-run if props.product changes
     
@@ -133,7 +133,7 @@ function ManualForm(props){
                 </div>
                 <div className='form-group' id='form-group-url'>
                     <label>Product Link</label>
-                    <input className='input-text' type='text' id='url' name='url' placeholder='https://example.com' defaultValue={props.product?.url} disabled={isLoading} />
+                    <input className='input-text' type='text' id='url' name='url' placeholder='https://example.com' defaultValue={props.product?.link} disabled={isLoading} />
                     <div className='error-text'></div>
                 </div>
                 <div className='form-group' id='form-group-price'>
@@ -146,7 +146,7 @@ function ManualForm(props){
                         id="value"
                         name="value"
                         placeholder="0.00"
-                        defaultValue={props.product?.["price:amount"]}
+                        defaultValue={props.product?.price}
                         decimalsLimit={2}
                         onValueChange={(value, name, values) => console.log(value, name, values)}
                         disabled={isLoading}
