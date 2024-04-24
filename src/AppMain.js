@@ -51,7 +51,6 @@ function AppMain(props){
             <nav className='sidebar-nav'>
                 <Link to="/" className={location.pathname === '/' ? '--active' : ''}><div className='inner'><QueueListIcon/><span>My Wishlist</span></div></Link>
                 <Link to="/people" className={location.pathname === '/people' ? '--active' : ''}><div className='inner'><UserGroupIcon/><span>People</span></div></Link>
-                <Link to="/activity" className={location.pathname === '/activity' ? '--active' : ''}><div className='inner'><BellAlertIcon/><span>Activity</span></div></Link>
                 <AccountMenuItem/>
             </nav>
         );
@@ -76,7 +75,6 @@ function AppMain(props){
             <div className='mobile-nav'>
                 <Link to="/" className={location.pathname === '/' ? '--active' : ''}><HomeIcon/><span>My Wishlist</span></Link>
                 <Link to="/people" className={location.pathname === '/people' ? '--active' : ''}><UserGroupIcon/><span>People</span></Link>
-                <Link to="/activity" className={location.pathname === '/activity' ? '--active' : ''}><BellAlertIcon/><span>Activity</span></Link>
                 <AccountMenuItem/>
             </div>
         );
@@ -125,7 +123,6 @@ function AppMain(props){
                     <Route path="/people/:uid" element={
                         <PeopleSingle apiRoot={props.apiRoot} user={props.user} setModal={setModal}  />
                     } />
-                    <Route path="/activity" element={<h1>Activity</h1>} />
                     <Route path="/account" element={
                         <>
                         <h1>Account</h1>

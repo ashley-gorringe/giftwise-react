@@ -78,7 +78,8 @@ function ListItem(props) {
             name: props.name,
             url: props.url,
             price: price,
-            image: thumbnailSrc
+            image: thumbnailSrc,
+            notes: props.description,
         };
 
         props.handleViewItem(item);
@@ -264,7 +265,7 @@ function WishlistIndex(props) {
             {items.length > 0 ? (
                 <div className='grid'>
                 {items.map((item, index) => (
-                    <ListItem key={index} uid={item.item_uid} name={item.title} url={item.url} price={item.value} images={item.images} handleDelete={handleItemDelete} handleViewItem={handleViewItem}  />
+                    <ListItem key={index} uid={item.item_uid} name={item.title} url={item.url} price={item.value} images={item.images} description={item.description} handleDelete={handleItemDelete} handleViewItem={handleViewItem}  />
                 ))}
                 </div>
             ) : (
