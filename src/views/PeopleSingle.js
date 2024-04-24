@@ -52,32 +52,29 @@ function ListItem(props) {
         price = '£ ' + props.price;
     }
 
-    const handleDelete = (event) => {
+    const handleViewItem = (event) => {
         event.preventDefault();
-        props.handleDelete(props.uid);
-        setMenuOpen(false); // Dismiss the menu
-    };
 
-    const handleEdit = (event) => {
-        event.preventDefault();
-        toast('Coming soon!');
-        setMenuOpen(false); // Dismiss the menu
-    };
-    const handlePrivacy = (event) => {
-        event.preventDefault();
-        toast('Coming soon!');
-        setMenuOpen(false); // Dismiss the menu
-    };
+        let item = {
+            name: props.name,
+            url: props.url,
+            price: price,
+            image: thumbnailSrc,
+            notes: props.description,
+        };
+
+        props.handleViewItem(item);
+    }
 
     return (
         <div className={`item-wrapper ${menuOpen ? '--menu-open' : ''}`}>
-            <a href="#" className='list-item'>
+            <div className='list-item' onClick={handleViewItem}>
                 <div className='image' style={{ backgroundImage: 'url('+thumbnailSrc+')' }}></div>
                 <div className='body'>
                     <h4>{props.name}</h4>
                     <span className='price'>{price}</span>
                 </div>
-            </a>
+            </div>
         </div>
     );
 }
@@ -123,6 +120,11 @@ function PeopleSingle(props) {
         });
     }, [wishlistUid]);
 
+    const handleViewItem = (item) => {
+        //event.preventDefault();
+        props.setModal({type: 'view-item', item: item});
+    };
+
     if (isLoading) {
         return (
             <>
@@ -164,7 +166,7 @@ function PeopleSingle(props) {
             {items.length > 0 ? (
                 <div className='grid'>
                 {items.map((item, index) => (
-                    <ListItem key={index} uid={item.item_uid} name={item.title} url={item.url} price={item.value} images={item.images}  />
+                    <ListItem key={index} uid={item.item_uid} name={item.title} url={item.url} price={item.value} images={item.images} description={item.description} handleViewItem={handleViewItem}  />
                 ))}
                 </div>
             ) : (
